@@ -1,4 +1,5 @@
 .App {
+    text-align:center;
 }
 
 .App-logo {
@@ -11,19 +12,31 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-main > .container {
-    padding: 60px 15px 0;
+
+@media (min-width: 980px) {
+    .page-container {
+        padding-top: 60px;
+    }
+}
+
+.page-container{
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+}
+.content-wrap{
+    flex:1;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
