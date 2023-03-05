@@ -6,8 +6,20 @@ internal class Program
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         // Add services to the container.
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: MyAllowSpecificOrigins,
+                              policy =>
+                              {
+                                  policy.AllowAnyOrigin();
+                                  policy.AllowAnyMethod();
+                                  policy.AllowAnyHeader();
+                              });
+        });
+
         builder.Services.Configure<EmpleadosDatabaseSettings>(
             builder.Configuration.GetSection("EmpleadosDatabase"));
         builder.Services.AddSingleton<EmpleadosService>();
