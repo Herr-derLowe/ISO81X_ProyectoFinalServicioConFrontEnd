@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import imgsalary from "../imgs/salary-it.png";
-import imggraphdown from "../imgs/graph-down-arrow.svg";
 import { NavLink, Link } from "react-router-dom";
-import groupIcon from "../imgs/group.png";
+import employeeimg from "../imgs/flatdesign-employees.jpg";
+import moneydownimg from "../imgs/moneydown.jpg";
 
 
 export class Home extends Component {
@@ -19,7 +19,9 @@ export class Home extends Component {
                 Dise&ntilde;e y agregue registros de empleados, departamentos,
                 ingresos y deducciones para generacion de transacciones para
                 contabilidad.
-              </p>
+                        </p>
+                        <br />
+
               <div className="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
                 <a
                   href="#comienzoGestionHome"
@@ -44,102 +46,63 @@ export class Home extends Component {
           <h2 className="pb-2 border-bottom">
             M&oacute;dulos de Gesti&oacute;n de N&oacute;minas
           </h2>
-          <div className="row g-4 py-5 row-cols-1 row-cols-lg-3">
-            <div className="col d-flex align-items-start">
-              <div className="icon-square bg-light text-dark flex-shrink-0 me-3">
-                <div className="icon-square bg-light text-dark flex-shrink-0 me-3">
-                  <img
-                    src={groupIcon}
-                    alt="Bootstrap"
-                    width="32"
-                    height="32"
-                    className="bi"
-                  ></img>
-                </div>
-              </div>
-              <div>
-                <h2>Empleados</h2>
-                <p>
-                  Paragraph of text beneath the heading to explain the heading.
-                  We'll add onto it with another sentence and probably just keep
-                  going until we run out of words.
-                </p>
-                <Link to="/empleados" className="btn btn-primary"> Acceder al modulo de empleados</Link>
-              </div>
-            </div>
-            <div className="col d-flex align-items-start">
-              <div className="icon-square bg-light text-dark flex-shrink-0 me-3">
-                <img
-                  src={imggraphdown}
-                  alt="Bootstrap"
-                  width="32"
-                  height="32"
-                  className="bi"
-                ></img>
-              </div>
-              <div>
-                <h2>Featured title</h2>
-                <p>
-                  Paragraph of text beneath the heading to explain the heading.
-                  We'll add onto it with another sentence and probably just keep
-                  going until we run out of words.
-                </p>
-                <a href="#" className="btn btn-primary">
-                  Primary button
-                </a>
-              </div>
-            </div>
-            <div className="col d-flex align-items-start">
-              <div className="icon-square bg-light text-dark flex-shrink-0 me-3">
-                <div className="icon-square bg-light text-dark flex-shrink-0 me-3">
-                  <img
-                    src={imggraphdown}
-                    alt="Bootstrap"
-                    width="32"
-                    height="32"
-                    className="bi"
-                  ></img>
-                </div>
-              </div>
-              <div>
-                <h2>Tipos de Deducciones</h2>
-                <p>
-                  M&oacute;dulo de gesti&oacute;n de tipos de deducciones
-                  aplicables a salarios de empleados. Identifica el tipo de
-                  transaccion en el modulo respectivo.
-                </p>
-                <NavLink
-                  className="btn btn-warning fw-bold"
-                  to="/gestiondeducciones"
-                >
-                  Acceder a Deducciones
-                </NavLink>
-              </div>
-            </div>
-            <div className="col d-flex align-items-start">
-              <div className="icon-square bg-light text-dark flex-shrink-0 me-3">
-                <div className="icon-square bg-light text-dark flex-shrink-0 me-3">
-                  <img
-                    src={imggraphdown}
-                    alt="Bootstrap"
-                    width="32"
-                    height="32"
-                    className="bi"
-                  ></img>
-                </div>
-              </div>
-              <div>
-                <h2>Featured title</h2>
-                <p>
-                  Paragraph of text beneath the heading to explain the heading.
-                  We'll add onto it with another sentence and probably just keep
-                  going until we run out of words.
-                </p>
-                <a href="#" className="btn btn-primary">
-                  Primary button
-                </a>
-              </div>
-            </div>
+                <div className="row g-4 py-5 row-cols-1 row-cols-lg-3">
+                    <div className="col">
+                        <div className="card">
+                            <img src={employeeimg} className="card-img-top" alt="Grupo de Empleados"></img>
+                            <div className="card-body">
+                                <h5 className="card-title">Empleados</h5>
+                                <p className="card-text">
+                                    M&oacute;dulo de gesti&oacute;n de empleados
+                                    dominados por el sistema de nomina.
+                                </p>
+                                <br/>
+                                <Link to="/empleados" className="btn btn-warning fw-bold"> Acceder a Empleados</Link>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="card">
+                            <img src="..." className="card-img-top" alt="..."></img>
+                            <div className="card-body">
+                                <h5 className="card-title">Card title</h5>
+                                <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                <a href="#" className="btn btn-primary">Go somewhere</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="card">
+                            <img src={moneydownimg} className="card-img-top" alt="..."></img>
+                            <div className="card-body">
+                                <h5 className="card-title">Tipos de Deducciones</h5>
+                                <p className="card-text">
+                                    M&oacute;dulo de gesti&oacute;n de tipos de deducciones
+                                    aplicables a salarios de empleados. Identifica el tipo de
+                                    transaccion en el modulo respectivo.
+                                </p>
+                                <br />
+                                <NavLink
+                                    className="btn btn-warning fw-bold"
+                                    to="/gestiondeducciones"
+                                >
+                                    Acceder a Deducciones
+                                </NavLink>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="card">
+                            <img src="..." className="card-img-top" alt="..."></img>
+                            <div className="card-body">
+                                <h5 className="card-title">Card title</h5>
+                                <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                <a href="#" className="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
           </div>
         </div>
       </div>

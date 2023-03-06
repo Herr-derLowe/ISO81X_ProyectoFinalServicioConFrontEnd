@@ -16,6 +16,9 @@ function Header() {
                                 <NavLink className="nav-link" aria-current="page" to="/home">Home</NavLink>
                             </li>
                             <li className="nav-item">
+                                <NavLink className="nav-link" aria-current="page" to="/empleados/*">Empleados</NavLink>
+                            </li>
+                            <li className="nav-item">
                                 <NavLink className="nav-link" aria-current="page" to="/gestiondeducciones">Tipos Deducciones</NavLink>
                             </li>
                             { /* <li className="nav-item">*/}
