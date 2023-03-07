@@ -21,6 +21,8 @@ export default class App extends Component {
                             <Route path='/' element={<Home />}></Route>
                             <Route path='/home' element={<Home />}></Route>
                             <Route path='/gestiondeducciones' element={<GestionDeducciones />}></Route>
+                            <Route path='/gestiondeducciones' element={<GestionDeducciones />}></Route>
+
 
                             <Route path='/empleados/*' element={<DashboardEmpleados/>} />
                             <Route path='/ingresos' element={<Ingresos/>} />
