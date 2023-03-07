@@ -6,14 +6,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './Components/header';
 import Footer from './Components/footer';
 import { DashboardEmpleados } from './Pages/EmpleadosModule/DashboardEmpleados';
-import { Ingresos } from './Pages/Ingresos';
+/* import { Ingresos } from './Pages/Ingresos'; */
 
 export default class App extends Component {
     static displayName = App.name;
 
     render() {
         return (
-            <div className="page-container">
+            <div className="AppBody">
                 <div className="content-wrap">
                     <BrowserRouter>
                         <Header />
@@ -21,11 +21,10 @@ export default class App extends Component {
                             <Route path='/' element={<Home />}></Route>
                             <Route path='/home' element={<Home />}></Route>
                             <Route path='/gestiondeducciones' element={<GestionDeducciones />}></Route>
-                            <Route path='/gestiondeducciones' element={<GestionDeducciones />}></Route>
 
 
                             <Route path='/empleados/*' element={<DashboardEmpleados/>} />
-                            <Route path='/ingresos' element={<Ingresos/>} />
+                            {/* <Route path='/ingresos' element={<Ingresos/>} /> */}
                         </Routes>
                     </BrowserRouter>
                 </div>

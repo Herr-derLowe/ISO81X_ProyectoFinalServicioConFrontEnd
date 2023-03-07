@@ -6,7 +6,6 @@ import axios from 'axios';
 import { DependeSalarioCheck } from '../Components/DeduccionesComponentes/DependeSalarioCheck';
 
 export class Ingresos extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
