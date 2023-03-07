@@ -203,7 +203,7 @@ return (
                 <div className="col">
                     <div className="h1 pb-2 mb-4 text-dark border-bottom border-secondary">
                     <br/>
-                        Gesti&oacute;n de Tipos de Deducciones
+                        Gesti&oacute;n de Tipos de Ingresos
                     </div>
 
                     <div className="row flex-lg-nowrap">
@@ -211,15 +211,15 @@ return (
                             <div className="e-panel card">
                                 <div className="card-body">
                                     <div className="card-title">
-                                        <h4 className="mr-2">Detalles de tipos de deducciones</h4>
+                                        <h4 className="mr-2">Detalles de tipos de ingresos</h4>
                                     </div>
                                     <div className="e-table">
                                         <div className="table-responsive table-lg mt-3">
                                             <table className="table table-striped table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <th>Clave Deducci&oacute;n</th>
-                                                        <th>Nombre Deducci&oacute;n</th>
+                                                        <th>Clave Ingresos</th>
+                                                        <th>Nombre Ingresos</th>
                                                         <th>Depende Salario</th>
                                                         <th>Estado</th>
                                                         <th>Acciones</th>
@@ -271,7 +271,7 @@ return (
                                                                 <div className="p-2 w-75 bd-highlight">
 
                                                                     <div className="mb-3">
-                                                                        <label htmlFor="inputClaveDeduccion" className="form-label">Clave del tipo de Deducci&oacute;n de Nomina(001, 002, ...)</label>
+                                                                        <label htmlFor="inputClaveIngreso" className="form-label">Clave del tipo de Ingreso de Nomina (001, 002, ...)</label>
                                                                         <input type="number"
                                                                             className="form-control"
                                                                             id="inputClaveDeduccion"
@@ -283,14 +283,14 @@ return (
                                                                     </div>
 
                                                                     <div className="mb-3">
-                                                                        <label htmlFor="inputNombreDeduccion" className="form-label">Nombre del tipo de Deducci&oacute;n</label>
+                                                                        <label htmlFor="inputNombreIngreso" className="form-label">Nombre del tipo de Ingreso</label>
                                                                         <input
                                                                             type="text"
-                                                                            id="inputNombreDeduccion"
+                                                                            id="inputNombreIngreso"
                                                                             className="form-control"
                                                                             value={nombreIngreso}
                                                                             onChange={this.changeNombreIngreso}
-                                                                            placeholder="ARS, AFP, ..."
+                                                                            placeholder="Concepto de ingresos"
                                                                         />
                                                                     </div>
 
@@ -298,16 +298,16 @@ return (
                                                                         <input
                                                                             className="form-check-input"
                                                                             type="checkbox"
-                                                                            id="inputDependeSalarioD"
+                                                                            id="inputDependeSalarioI"
                                                                             onChange={this.changeDependeSalarioI }
                                                                             defaultChecked/>
-                                                                        <label className="form-check-label" htmlFor="inputDependeSalarioD">
-                                                                                Deducci&oacute;n depende de salario del empleado
+                                                                        <label className="form-check-label" htmlFor="inputDependeSalarioI">
+                                                                                Ingreso depende de salario del empleado
                                                                             </label>
                                                                     </div>
                                                                     <br/>
                                                                     <div className="input-group mb-3">
-                                                                        <label className="input-group-text" htmlFor="inputGroupSelectCondicion">Estado Deducci&oacute;n Nomina</label>
+                                                                        <label className="input-group-text" htmlFor="inputGroupSelectCondicion">Estado de Ingresos en Nómina</label>
                                                                         <select
                                                                             className="form-select"
                                                                             id="inputGroupSelectCondicion"
@@ -325,14 +325,14 @@ return (
                                                                 <button type="button"
                                                                     className="btn btn-primary float-start"
                                                                     onClick={() => this.createClick()}
-                                                                >Crear Tipo Deducci&oacute;n</button>
+                                                                >Crear Tipo Ingreso</button>
                                                                 : null}
 
                                                             {id !== "" ?
                                                                 <button type="button"
                                                                     className="btn btn-primary float-start"
                                                                     onClick={() => this.updateClick()}
-                                                                >Actualizar Tipo Deducci&oacute;n</button>
+                                                                >Actualizar Tipo de ingreso</button>
                                                                 : null}
                                                         </div>
 
@@ -344,59 +344,16 @@ return (
                                 </div>
                             </div>
                         </div>
-                        <div className="col-12 col-lg-3 mb-3">
-                            <div className="card">
-                                <div className="card-body">
+                        <div className="col-12 col-lg-3 mb-3 text-center">
+                            <div className="card text-center">
+                                <div className="card-body text-center" >
                                     <button type="button"
-                                        className="btn btn-primary m-2 float-end"
+                                        className="btn btn-primary m-2 float-end text-center"
                                         data-bs-toggle="modal"
                                         data-bs-target="#exampleModal"
                                         onClick={() => this.addClick()}>
-                                        A&ntilde;adir Deducci&oacute;n
+                                        A&ntilde;adir Ingreso
                                     </button>
-                                    <hr className="my-3" />
-                                    <div className="e-navlist e-navlist--active-bold">
-                                        <ul className="nav">
-                                            <li className="nav-item active"><a href="" className="nav-link"><span>All</span> <small>/ 32</small></a></li>
-                                            <li className="nav-item"><a href="" className="nav-link"><span>Active</span> <small>/ 16</small></a></li>
-                                            <li className="nav-item"><a href="" className="nav-link"><span>Selected</span> <small>/ 0</small></a></li>
-                                        </ul>
-                                    </div>
-                                    <hr className="my-3" />
-                                    <div>
-                                        <div className="form-group">
-                                            <label>Date from - to:</label>
-                                            <div>
-                                                <input id="dates-range" className="form-control flatpickr-input" placeholder="01 May 21 - 27 May 21" type="text" readOnly="readOnly" />
-                                            </div>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Search by Name:</label>
-                                            <div><input className="form-control w-100" type="text" placeholder="Name"/></div>
-                                        </div>
-                                    </div>
-                                    <hr className="my-3" />
-                                    <div className="">
-                                        <label>Status:</label>
-                                        <div className="px-2">
-                                            <div className="custom-control custom-radio">
-                                                <input type="radio" className="custom-control-input" name="user-status" id="users-status-disabled" />
-                                                <label className="custom-control-label" htmlFor="users-status-disabled">Disabled</label>
-                                            </div>
-                                        </div>
-                                        <div className="px-2">
-                                            <div className="custom-control custom-radio">
-                                                <input type="radio" className="custom-control-input" name="user-status" id="users-status-active" />
-                                                <label className="custom-control-label" htmlFor="users-status-active">Active</label>
-                                            </div>
-                                        </div>
-                                        <div className="px-2">
-                                            <div className="custom-control custom-radio">
-                                                <input type="radio" className="custom-control-input" name="user-status" id="users-status-any" checked="" />
-                                                <label className="custom-control-label" htmlFor="users-status-any">Any</label>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

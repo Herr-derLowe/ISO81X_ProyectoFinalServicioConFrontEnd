@@ -7,6 +7,7 @@
     grid-template-rows: 5rem auto;
 
     overflow-x: hidden;
+    margin-top: 60px;
 
 }
 
@@ -28,7 +29,6 @@
 .gridCont{
     width: 100%;
     min-height: 100%;
-    padding-top: 2rem;
 
     display: grid;
     grid-template-columns: repeat(auto-fill, 15rem);
