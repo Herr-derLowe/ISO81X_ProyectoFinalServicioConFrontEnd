@@ -191,9 +191,22 @@ export class GestionDeducciones extends Component {
         //})
         const MySwal = withReactContent(Swal)
 
+        let nombreValidate, claveValidate;
+        if (this.state.claveIngreso === "") {
+            claveValidate = null;
+        } else {
+            claveValidate = this.state.claveDeduccion;
+        }
+
+        if (this.state.nombreIngreso === "") {
+            nombreValidate = null;
+        } else {
+            nombreValidate = this.state.nombreDeduccion;
+        }
+
         axios.put(variables.API_URL + 'tiposdeducciones/UpdateTipoDeduccion/' + this.state.id, {
-            claveDeduccion: this.state.claveDeduccion,
-            nombreDeduccion: this.state.nombreDeduccion,
+            claveDeduccion: claveValidate,
+            nombreDeduccion: nombreValidate,
             dependeSalarioD: this.state.dependeSalarioD,
             estadoDeduccion: this.state.estadoDeduccion
         })
@@ -251,7 +264,7 @@ export class GestionDeducciones extends Component {
                         this.refreshList();
                     }, (error) => {
                         MySwal.fire({
-                            title: <strong>Error: No se pudo insertar la deduccion...</strong>,
+                            title: <strong>Error: No se pudo eliminar la deduccion...</strong>,
                             icon: 'error'
                         });
                         console.log(error);
@@ -356,7 +369,7 @@ export class GestionDeducciones extends Component {
 
                                                                                 <div className="mb-3">
                                                                                     <label htmlFor="inputClaveDeduccion" className="form-label">Clave del tipo de Deducci&oacute;n de Nomina(001, 002, ...)</label>
-                                                                                    <input type="number"
+                                                                                    <input type="text"
                                                                                         className="form-control"
                                                                                         id="inputClaveDeduccion"
                                                                                         placeholder="001, 002, ..."
@@ -364,7 +377,12 @@ export class GestionDeducciones extends Component {
                                                                                         onChange={this.changeClaveDeduccion}
                                                                                         step="1"
                                                                                         required={true}
+                                                                                        pattern="^[0-9]\d\d$"
+                                                                                        maxLength="3"
                                                                                     />
+                                                                                    <div className="invalid-feedback">
+                                                                                        Favor ingresar una clave para la deducci&oacute;n.
+                                                                                    </div>
                                                                                 </div>
 
                                                                                 <div className="mb-3">
@@ -379,7 +397,7 @@ export class GestionDeducciones extends Component {
                                                                                         required={true }
                                                                                     />
                                                                                     <div className="invalid-feedback">
-                                                                                        Please provide a valid city.
+                                                                                        Favor ingresar un nombre para la deducci&oacute;n.
                                                                                     </div>
                                                                                 </div>
 
