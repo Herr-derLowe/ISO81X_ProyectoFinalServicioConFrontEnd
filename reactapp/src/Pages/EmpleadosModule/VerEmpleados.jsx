@@ -36,7 +36,8 @@ export function VerEmpleados() {
             return (
               <CardEmpleados
                 key={data.id}
-                id={iden + 1}
+                id={data.id}
+                indice={iden + 1}
                 cedula={data.cedulaEmpleado}
                 empleado={data.nombreEmpleado}
                 departamento={data.departamento}
