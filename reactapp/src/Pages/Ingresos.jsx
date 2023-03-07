@@ -3,6 +3,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
 import { variables } from '../Components/Variables';
 import axios from 'axios';
+import { DependeSalarioCheck } from '../Components/DeduccionesComponentes/DependeSalarioCheck';
 
 export class Ingresos extends Component {
 
@@ -230,7 +231,7 @@ return (
                                                         <tr key={ingres.id}>
                                                             <td>{ingres.claveIngreso}</td>
                                                             <td>{ingres.nombreIngreso}</td>
-                                                            <td>{ingres.dependeSalarioI}</td>  
+                                                            <td><DependeSalarioCheck dependeSalario={ingres.dependeSalarioI} /></td>  
                                                             <td>{ingres.estadoIngreso}</td>
                                                             <td>
                                                                 <button type="button"
