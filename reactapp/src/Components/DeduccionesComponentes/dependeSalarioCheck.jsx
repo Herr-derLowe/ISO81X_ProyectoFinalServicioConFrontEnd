@@ -1,15 +1,13 @@
 import React from "react";
 
-function DependeSalarioCheck(props) {
+export function DependeSalarioCheck(props) {
     const dependeSalario = props.dependeSalario;
     if (dependeSalario) {
-        return <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled" checked disabled></input>
+        return <div className="form-check">
+            <input className="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled" defaultChecked disabled={true}></input>
         </div>;
     }
-    return <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled></input>
+    return <div className="form-check">
+        <input className="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled={true}></input>
     </div>;
 }
-
-export default DependeSalarioCheck;

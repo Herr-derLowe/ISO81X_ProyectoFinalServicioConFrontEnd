@@ -3,6 +3,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
 import { variables } from '../Components/Variables';
 import axios from 'axios';
+import { DependeSalarioCheck } from '../Components/DeduccionesComponentes/DependeSalarioCheck';
 
 export class GestionDeducciones extends Component {
     constructor(props) {
@@ -80,21 +81,21 @@ export class GestionDeducciones extends Component {
 
     refreshList() {
 
-        fetch(variables.API_URL + 'tiposdeducciones/GetTiposDeducciones', {
-            headers: {
-                "Accept": "text/plain",
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ deducciones: data });
-            });
-        //axios.get(variables.API_URL + 'tiposdeducciones/GetTiposDeducciones', {
-        //    responseType: "json",
+        //fetch(variables.API_URL + 'tiposdeducciones/GetTiposDeducciones', {
+        //    headers: {
+        //        "Accept": "text/plain",
+        //    },
         //})
+        //    .then(response => response.json())
         //    .then(data => {
         //        this.setState({ deducciones: data });
         //    });
+        axios.get(variables.API_URL + 'tiposdeducciones/GetTiposDeducciones')
+            .then(res => {
+                const data = res.data;
+                this.setState({ deducciones:data });
+            })
+        
     }
 
     componentDidMount() {
@@ -126,6 +127,7 @@ export class GestionDeducciones extends Component {
     editClick(deduc) {
         this.setState({
             modalTitle: "Editar Tipo Deduccion",
+            id: deduc.id,
             claveDeduccion: deduc.claveDeduccion,
             nombreDeduccion: deduc.nombreDeduccion,
             dependeSalarioD: deduc.dependeSalarioD,
@@ -139,10 +141,20 @@ export class GestionDeducciones extends Component {
         //    title: <strong>Deducci&oacute;n Insertada!</strong>,
         //    icon: 'success'
         //});
-
+        let nombreValidate, claveValidate;
+        if (this.state.claveDeduccion === "") {
+            claveValidate = null;
+        } else {
+            claveValidate = this.state.claveDeduccion;
+        }
+        if (this.state.nombreDeduccion === "") {
+            nombreValidate = null;
+        } else {
+            nombreValidate = this.state.nombreDeduccion;
+        }
         axios.post(variables.API_URL + 'tiposdeducciones/PostAddTipoDeduccion', {
-            claveDeduccion: this.state.claveDeduccion,
-            nombreDeduccion: this.state.nombreDeduccion,
+            claveDeduccion: claveValidate,
+            nombreDeduccion: nombreValidate,
             dependeSalarioD: this.state.dependeSalarioD,
             estadoDeduccion: this.state.estadoDeduccion
         })
@@ -289,7 +301,7 @@ export class GestionDeducciones extends Component {
                                                                 <th>Nombre Deducci&oacute;n</th>
                                                                 <th>Depende Salario</th>
                                                                 <th>Estado</th>
-                                                                <th>Acciones</th>
+                                                                <th>Acciones UD</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -297,7 +309,7 @@ export class GestionDeducciones extends Component {
                                                                 <tr key={deduc.id}>
                                                                     <td>{deduc.claveDeduccion}</td>
                                                                     <td>{deduc.nombreDeduccion}</td>
-                                                                    <td>{deduc.dependeSalarioD}</td>
+                                                                    <td><DependeSalarioCheck dependeSalario={deduc.dependeSalarioD} /></td>
                                                                     <td>{deduc.estadoDeduccion}</td>
                                                                     <td>
                                                                         <button type="button"
@@ -310,7 +322,7 @@ export class GestionDeducciones extends Component {
                                                                                 <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                                                             </svg> Editar
                                                                         </button>
-
+                                                                        &nbsp; 
                                                                         <button type="button"
                                                                             className="btn btn-danger mr-1"
                                                                             onClick={() => this.deleteClick(deduc.id)}>
@@ -333,74 +345,81 @@ export class GestionDeducciones extends Component {
                                                                 </div>
 
                                                                 <div className="modal-body">
-                                                                    <div className="d-flex flex-row bd-highlight mb-3">
+                                                                    <form className="was-validated">
+                                                                        <div className="d-flex flex-row bd-highlight mb-3">
 
-                                                                        <div className="p-2 w-75 bd-highlight">
+                                                                            <div className="p-2 w-75 bd-highlight">
 
-                                                                            <div className="mb-3">
-                                                                                <label htmlFor="inputClaveDeduccion" className="form-label">Clave del tipo de Deducci&oacute;n de Nomina(001, 002, ...)</label>
-                                                                                <input type="number"
-                                                                                    className="form-control"
-                                                                                    id="inputClaveDeduccion"
-                                                                                    placeholder="001, 002, ..."
-                                                                                    value={claveDeduccion}
-                                                                                    onChange={this.changeClaveDeduccion}
-                                                                                    step="1"
-                                                                                />
-                                                                            </div>
+                                                                                <div className="mb-3">
+                                                                                    <label htmlFor="inputClaveDeduccion" className="form-label">Clave del tipo de Deducci&oacute;n de Nomina(001, 002, ...)</label>
+                                                                                    <input type="number"
+                                                                                        className="form-control"
+                                                                                        id="inputClaveDeduccion"
+                                                                                        placeholder="001, 002, ..."
+                                                                                        value={claveDeduccion}
+                                                                                        onChange={this.changeClaveDeduccion}
+                                                                                        step="1"
+                                                                                        required={true}
+                                                                                    />
+                                                                                </div>
 
-                                                                            <div className="mb-3">
-                                                                                <label htmlFor="inputNombreDeduccion" className="form-label">Nombre del tipo de Deducci&oacute;n</label>
-                                                                                <input
-                                                                                    type="text"
-                                                                                    id="inputNombreDeduccion"
-                                                                                    className="form-control"
-                                                                                    value={nombreDeduccion}
-                                                                                    onChange={this.changeNombreDeduccion}
-                                                                                    placeholder="ARS, AFP, ..."
-                                                                                />
-                                                                            </div>
+                                                                                <div className="mb-3">
+                                                                                    <label htmlFor="inputNombreDeduccion" className="form-label">Nombre del tipo de Deducci&oacute;n</label>
+                                                                                    <input
+                                                                                        type="text"
+                                                                                        id="inputNombreDeduccion"
+                                                                                        className="form-control"
+                                                                                        value={nombreDeduccion}
+                                                                                        onChange={this.changeNombreDeduccion}
+                                                                                        placeholder="ARS, AFP, ..."
+                                                                                        required={true }
+                                                                                    />
+                                                                                    <div className="invalid-feedback">
+                                                                                        Please provide a valid city.
+                                                                                    </div>
+                                                                                </div>
 
-                                                                            <div className="form-check">
-                                                                                <input
-                                                                                    className="form-check-input"
-                                                                                    type="checkbox"
-                                                                                    id="inputDependeSalarioD"
-                                                                                    onChange={this.changeDependeSalarioD }
-                                                                                    defaultChecked/>
-                                                                                <label className="form-check-label" htmlFor="inputDependeSalarioD">
+                                                                                <div className="form-check">
+                                                                                    <input
+                                                                                        className="form-check-input"
+                                                                                        type="checkbox"
+                                                                                        id="inputDependeSalarioD"
+                                                                                        onChange={this.changeDependeSalarioD}
+                                                                                        defaultChecked />
+                                                                                    <label className="form-check-label" htmlFor="inputDependeSalarioD">
                                                                                         Deducci&oacute;n depende de salario del empleado
                                                                                     </label>
-                                                                            </div>
-                                                                            <br/>
-                                                                            <div className="input-group mb-3">
-                                                                                <label className="input-group-text" htmlFor="inputGroupSelectCondicion">Estado Deducci&oacute;n Nomina</label>
-                                                                                <select
-                                                                                    className="form-select"
-                                                                                    id="inputGroupSelectCondicion"
-                                                                                    value={estadoDeduccion}
-                                                                                    onChange={this.changeEstadoDeduccion}
-                                                                                >
-                                                                                    <option value="ACTIVO">Activo</option>
-                                                                                    <option value="INACTIVO">Inactivo</option>
-                                                                                </select>
+                                                                                </div>
+                                                                                <br />
+                                                                                <div className="input-group mb-3">
+                                                                                    <label className="input-group-text" htmlFor="inputGroupSelectCondicion">Estado Deducci&oacute;n Nomina</label>
+                                                                                    <select
+                                                                                        className="form-select"
+                                                                                        id="inputGroupSelectCondicion"
+                                                                                        value={estadoDeduccion}
+                                                                                        onChange={this.changeEstadoDeduccion}
+                                                                                    >
+                                                                                        <option value="ACTIVO">Activo</option>
+                                                                                        <option value="INACTIVO">Inactivo</option>
+                                                                                    </select>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
 
-                                                                    {id === "" ?
-                                                                        <button type="button"
-                                                                            className="btn btn-primary float-start"
-                                                                            onClick={() => this.createClick()}
-                                                                        >Crear Tipo Deducci&oacute;n</button>
-                                                                        : null}
+                                                                        {id === "" ?
+                                                                            <button type="button"
+                                                                                className="btn btn-primary float-start"
+                                                                                onClick={() => this.createClick()}
+                                                                            >Crear Tipo Deducci&oacute;n</button>
+                                                                            : null}
 
-                                                                    {id !== "" ?
-                                                                        <button type="button"
-                                                                            className="btn btn-primary float-start"
-                                                                            onClick={() => this.updateClick()}
-                                                                        >Actualizar Tipo Deducci&oacute;n</button>
-                                                                        : null}
+                                                                        {id !== "" ?
+                                                                            <button type="button"
+                                                                                className="btn btn-primary float-start"
+                                                                                onClick={() => this.updateClick()}
+                                                                            >Actualizar Tipo Deducci&oacute;n</button>
+                                                                            : null}
+                                                                    </form>
                                                                 </div>
 
                                                             </div>
