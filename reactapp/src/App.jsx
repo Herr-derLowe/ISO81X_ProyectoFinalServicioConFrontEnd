@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './Components/header';
 import Footer from './Components/footer';
 import { DashboardEmpleados } from './Pages/EmpleadosModule/DashboardEmpleados';
+import { Ingresos } from './Pages/Ingresos';
 
 export default class App extends Component {
     static displayName = App.name;
@@ -22,6 +23,7 @@ export default class App extends Component {
                             <Route path='/gestiondeducciones' element={<GestionDeducciones />}></Route>
 
                             <Route path='/empleados/*' element={<DashboardEmpleados/>} />
+                            <Route path='/ingresos' element={<Ingresos/>} />
                         </Routes>
                     </BrowserRouter>
                 </div>
