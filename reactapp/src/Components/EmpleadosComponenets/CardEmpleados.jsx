@@ -148,7 +148,7 @@ export function CardEmpleados({
 
               <div className={style.inputs}>
                 <span>Salario</span>
-                <input name="salary" type="number" onChange={handleChange} />
+                <input name="salary" type="number" onChange={handleChange} step="0.01"/>
               </div>
 
               <div className={style.sendForm}>

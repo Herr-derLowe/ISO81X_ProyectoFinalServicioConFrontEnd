@@ -43,7 +43,7 @@ export function CrearEmpleado() {
       <form className={style.form} onSubmit={send}>
         <div className={style.inputs}>
           <span>Cedula:</span>
-          <input type="text" name="cedula" onChange={handleChange} />
+          <input type="number" name="cedula" onChange={handleChange} />
         </div>
 
         <div className={style.inputs}>
@@ -63,7 +63,7 @@ export function CrearEmpleado() {
 
         <div className={style.inputs}>
           <span>Salario</span>
-          <input type="text" name="salary" onChange={handleChange} />
+          <input type="number" name="salary" onChange={handleChange} step="0.01"/>
         </div>
         <div className={style.send}>
           <button>Crear Empleado</button>
