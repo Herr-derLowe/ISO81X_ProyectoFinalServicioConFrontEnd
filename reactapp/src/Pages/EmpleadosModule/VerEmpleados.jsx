@@ -12,13 +12,13 @@ export function VerEmpleados() {
       await axios
         .get("https://localhost:7069/api/Empleados/GetEmpleados")
         .then((data) => {
-          console.log(data);
+          setGetEmpleado(data.data);
         });
     } catch (error) {}
   };
-  /* useEffect(() => {
+  useEffect(() => {
     get();
-  }, []); */
+  }, []);
 
   return (
     <section className={style.body}>
@@ -32,7 +32,19 @@ export function VerEmpleados() {
           <span>Salario</span>
         </div>
         <div className={style.data}>
-          <CardEmpleados />
+          {getEmpleado.map((data, iden) => {
+            return (
+              <CardEmpleados
+                key={data.id}
+                id={iden + 1}
+                cedula={data.cedulaEmpleado}
+                empleado={data.nombreEmpleado}
+                departamento={data.departamento}
+                puesto={data.puestoEmpleado}
+                salario={data.salarioMensual}
+              />
+            );
+          })}
         </div>
       </div>
     </section>
