@@ -2,12 +2,13 @@ import React from "react";
 
 export function DependeSalarioCheck(props) {
     const dependeSalario = props.dependeSalario;
-    if (dependeSalario) {
+    if (dependeSalario == true) {
         return <div className="form-check">
-            <input className="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled" defaultChecked disabled={true}></input>
+            <input className="form-check-input" type="checkbox" defaultChecked disabled={true} />
+        </div>;
+    } else if (dependeSalario == false) {
+        return <div className="form-check">
+            <input className="form-check-input" type="checkbox" disabled={true} />
         </div>;
     }
-    return <div className="form-check">
-        <input className="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled={true}></input>
-    </div>;
 }

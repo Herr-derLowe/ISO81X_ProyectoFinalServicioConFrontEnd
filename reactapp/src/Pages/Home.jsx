@@ -3,6 +3,7 @@ import imgsalary from "../imgs/salary-it.png";
 import { NavLink, Link } from "react-router-dom";
 import employeeimg from "../imgs/flatdesign-employees.jpg";
 import moneydownimg from "../imgs/moneydown.jpg";
+import tipos_de_ingresosimg from "../imgs/tipos_de_ingresos.jpeg";
 
 
 export class Home extends Component {
@@ -63,12 +64,19 @@ export class Home extends Component {
                     </div>
                     <div className="col">
                         <div className="card">
-                            <img src="..." className="card-img-top" alt="..."></img>
+                            <img src={tipos_de_ingresosimg} className="card-img-top" alt="..."></img>
                             <div className="card-body">
-                                <h5 className="card-title">Card title</h5>
-                                <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <a href="#" className="btn btn-primary">Go somewhere</a>
-
+                                <h5 className="card-title">Gestión de Ingresos</h5>
+                                <p className="card-text">M&oacute;dulo de gesti&oacute;n de Tipos de ingresos destinado al
+                                registro de las diferentes ganancias por parte de los empleados.</p>
+                                <br/>
+                                <NavLink
+                                    className="btn btn-warning fw-bold"
+                                    to="/ingresos"
+                                >
+                                    Acceder a Ingresos
+                                </NavLink>
+                                
                             </div>
                         </div>
                     </div>

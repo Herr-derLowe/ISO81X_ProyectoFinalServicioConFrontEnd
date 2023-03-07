@@ -17,20 +17,123 @@ p{
     align-items: center;
 }
 
-.contDetails{
+.contButtons{
     width: 100%;
-    height: 100%;
+    height: 3rem;
+
+    border-bottom: 1px solid;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:2rem;
+}
+
+.contButtons button{
+    width: 5rem;
+    height: 1.8rem;
+
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    color: #FFF;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.contButtons button:nth-child(1){
+    background-color: #1FB601;
+}
+.contButtons button:nth-child(2){
+    background-color: #B60C01;
+}
+
+.contEdit{
+    width: 100%;
+    height: 100vh;
 
     position: absolute;
     top: 0;
     left: 0;
 
     display: grid;
-    grid-template-columns: 70% 30%;
+    grid-template-columns: 70% auto;
 }
 
 .opacity{
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, .4);
+}
+
+.editPanel{
+    margin-top: 56px;
+    background-color: #FFF;
+    
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 3rem auto;
+}
+
+.editPanel form{
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, .5);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.formTitle{
+    width: 100%;
+    padding-left: 1rem;
+}
+
+.inputs{
+    width: 15rem;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.inputs input{
+    height: 2rem;
+
+    padding: 0 10px;
+
+    border-radius: 3px;
+    outline: none;
+    border: 1px solid;
+}
+
+.sendForm{
+    width: 100%;
+    height: 20%;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 2rem;
+}
+
+.sendForm button{
+    width: 8rem;
+    height: 2rem;
+
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+
+    color: #FFF;
+    font-size: 1.1rem;
+    font-weight: 600;
+
+}
+
+.sendForm button:nth-child(1){
+    background-color: #1FB601;
+}
+.sendForm button:nth-child(2){
+    background-color: #B60C01;
 }
