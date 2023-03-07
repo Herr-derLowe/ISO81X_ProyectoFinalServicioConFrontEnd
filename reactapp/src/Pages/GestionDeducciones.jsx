@@ -199,15 +199,19 @@ export class GestionDeducciones extends Component {
         })
             .then(() => {
                 MySwal.fire({
-                    title: <strong>Deducci&oacute;n Insertada!</strong>,
-                    icon: 'success'
+                    title: <strong>Deducci&oacute;n Actualizada!</strong>,
+                    icon: 'success',
+                    didClose: () => {
+                        this.refreshList()
+                    }
                 });
                 this.refreshList();
             }, (error) => {
                 MySwal.fire({
-                    title: <strong>Error: No se pudo insertar la deduccion...</strong>,
+                    title: <strong>Error: No se pudo actualizar la deduccion...</strong>,
                     icon: 'error'
                 });
+                this.refreshList();
                 console.log(error);
             })
     }
@@ -385,7 +389,8 @@ export class GestionDeducciones extends Component {
                                                                                         type="checkbox"
                                                                                         id="inputDependeSalarioD"
                                                                                         onChange={this.changeDependeSalarioD}
-                                                                                        defaultChecked />
+                                                                                        checked={this.state.dependeSalarioD }
+                                                                                    />
                                                                                     <label className="form-check-label" htmlFor="inputDependeSalarioD">
                                                                                         Deducci&oacute;n depende de salario del empleado
                                                                                     </label>
@@ -433,13 +438,15 @@ export class GestionDeducciones extends Component {
                                 <div className="col-12 col-lg-3 mb-3">
                                     <div className="card">
                                         <div className="card-body">
-                                            <button type="button"
-                                                className="btn btn-primary m-2 float-end"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"
-                                                onClick={() => this.addClick()}>
-                                                A&ntilde;adir Deducci&oacute;n
-                                            </button>
+                                            <div className="text-center px-xl-3">
+                                                <button type="button"
+                                                    className="btn btn-success btn-block"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal"
+                                                    onClick={() => this.addClick()}>
+                                                    A&ntilde;adir Deducci&oacute;n
+                                                </button>
+                                            </div>
                                             <hr className="my-3" />
                                             <div className="e-navlist e-navlist--active-bold">
                                                 <ul className="nav">

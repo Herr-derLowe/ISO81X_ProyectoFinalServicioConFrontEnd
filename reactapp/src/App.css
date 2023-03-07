@@ -6,3 +6,9 @@
   grid-template-columns: 100%;
   grid-template-rows: auto 60px;
 }
+
+@media (min-width: 980px) {
+    .AppBody {
+        padding-top: 60px;
+    }
+}
