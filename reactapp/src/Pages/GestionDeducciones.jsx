@@ -4,6 +4,7 @@ import withReactContent from 'sweetalert2-react-content';
 import { variables } from '../Components/Variables';
 import axios from 'axios';
 import { DependeSalarioCheck } from '../Components/DeduccionesComponentes/DependeSalarioCheck';
+import { EstadoDeduccionBadge } from '../Components/DeduccionesComponentes/estadoDeduccionBadge';
 
 export class GestionDeducciones extends Component {
     constructor(props) {
@@ -34,17 +35,14 @@ export class GestionDeducciones extends Component {
 
         var filteredData = this.state.deduccionesWithoutFilter.filter(
             function (el) {
-                return el.claveDeduccion.toString().toLowerCase().includes(
-                    DeduccionClaveFilter.toString().trim().toLowerCase()
-                ) &&
-                    el.nombreDeduccion.toString().toLowerCase().includes(
+                return el.nombreDeduccion.toString().toLowerCase().includes(
                         DeduccionNombreFilter.toString().trim().toLowerCase()
+                ) &&
+                    el.claveDeduccion.toString().toLowerCase().includes(
+                        DeduccionClaveFilter.toString().trim().toLowerCase()
                     ) &&
-                    el.dependeSalarioD.toString().toLowerCase().includes(
-                        DeduccionDependeSalarioFilter.toString().trim().toLowerCase()
-                    ) &&
-                    el.EstadoDeduccionFilter.toString().toLowerCase().includes(
-                        EstadoDeduccionFilter.toString().trim().toLowerCase()
+                    el.estadoDeduccion.toString().toUpperCase().includes(
+                        EstadoDeduccionFilter.toString().trim().toUpperCase()
                     )
             }
         );
@@ -93,7 +91,7 @@ export class GestionDeducciones extends Component {
         axios.get(variables.API_URL + 'tiposdeducciones/GetTiposDeducciones')
             .then(res => {
                 const data = res.data;
-                this.setState({ deducciones:data });
+                this.setState({ deducciones:data , deduccionesWithoutFilter:data});
             })
         
     }
@@ -327,7 +325,7 @@ export class GestionDeducciones extends Component {
                                                                     <td>{deduc.claveDeduccion}</td>
                                                                     <td>{deduc.nombreDeduccion}</td>
                                                                     <td><DependeSalarioCheck dependeSalario={deduc.dependeSalarioD} /></td>
-                                                                    <td>{deduc.estadoDeduccion}</td>
+                                                                    <td><EstadoDeduccionBadge estadoDeduccion={deduc.estadoDeduccion} /></td>
                                                                     <td>
                                                                         <button type="button"
                                                                             className="btn btn-primary mr-1"
@@ -466,47 +464,46 @@ export class GestionDeducciones extends Component {
                                                 </button>
                                             </div>
                                             <hr className="my-3" />
-                                            <div className="e-navlist e-navlist--active-bold">
-                                                <ul className="nav">
-                                                    <li className="nav-item active"><a href="" className="nav-link"><span>All</span> <small>/ 32</small></a></li>
-                                                    <li className="nav-item"><a href="" className="nav-link"><span>Active</span> <small>/ 16</small></a></li>
-                                                    <li className="nav-item"><a href="" className="nav-link"><span>Selected</span> <small>/ 0</small></a></li>
-                                                </ul>
+                                            <div className="text-center">
+                                                <input className="form-control"
+                                                    onChange={this.changeDeduccionClaveFilter}
+                                                    placeholder="Filtrar clave deducci&oacute;n"
+                                                />
+                                                <br />
+                                                <button type="button" className="btn btn-light"
+                                                    onClick={() => this.sortResult('claveDeduccion', true)}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
+                                                        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
+                                                    </svg>
+                                                </button>
+
+                                                <button type="button" className="btn btn-light"
+                                                    onClick={() => this.sortResult('claveDeduccion', false)}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
+                                                        <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
+                                                    </svg>
+                                                </button>
                                             </div>
                                             <hr className="my-3" />
-                                            <div>
-                                                <div className="form-group">
-                                                    <label>Date from - to:</label>
-                                                    <div>
-                                                        <input id="dates-range" className="form-control flatpickr-input" placeholder="01 May 21 - 27 May 21" type="text" readOnly="readOnly" />
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Search by Name:</label>
-                                                    <div><input className="form-control w-100" type="text" placeholder="Name"/></div>
-                                                </div>
-                                            </div>
-                                            <hr className="my-3" />
-                                            <div className="">
-                                                <label>Status:</label>
-                                                <div className="px-2">
-                                                    <div className="custom-control custom-radio">
-                                                        <input type="radio" className="custom-control-input" name="user-status" id="users-status-disabled" />
-                                                        <label className="custom-control-label" htmlFor="users-status-disabled">Disabled</label>
-                                                    </div>
-                                                </div>
-                                                <div className="px-2">
-                                                    <div className="custom-control custom-radio">
-                                                        <input type="radio" className="custom-control-input" name="user-status" id="users-status-active" />
-                                                        <label className="custom-control-label" htmlFor="users-status-active">Active</label>
-                                                    </div>
-                                                </div>
-                                                <div className="px-2">
-                                                    <div className="custom-control custom-radio">
-                                                        <input type="radio" className="custom-control-input" name="user-status" id="users-status-any" checked="" />
-                                                        <label className="custom-control-label" htmlFor="users-status-any">Any</label>
-                                                    </div>
-                                                </div>
+                                            <div className="text-center">
+                                                <input className="form-control"
+                                                    onChange={this.changeDeduccionNombreFilter}
+                                                    placeholder="Filtrar nombre deducci&oacute;n"
+                                                />
+                                                <br/>
+                                                <button type="button" className="btn btn-light"
+                                                    onClick={() => this.sortResult('nombreDeduccion', true)}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
+                                                        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
+                                                    </svg>
+                                                </button>
+
+                                                <button type="button" className="btn btn-light"
+                                                    onClick={() => this.sortResult('nombreDeduccion', false)}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
+                                                        <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
+                                                    </svg>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
