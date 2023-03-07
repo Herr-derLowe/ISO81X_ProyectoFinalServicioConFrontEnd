@@ -7,6 +7,7 @@ import Header from './Components/header';
 import Footer from './Components/footer';
 import { DashboardEmpleados } from './Pages/EmpleadosModule/DashboardEmpleados';
 import { Ingresos } from './Pages/Ingresos';
+import { Transacciones } from './Pages/Transacciones';
 
 export default class App extends Component {
     static displayName = App.name;
@@ -24,7 +25,8 @@ export default class App extends Component {
 
 
                             <Route path='/empleados/*' element={<DashboardEmpleados/>} />
-                            <Route path='/ingresos' element={<Ingresos/>} />
+                            <Route path='/ingresos' element={<Ingresos />} />
+                            <Route path='/transacciones' element={<Transacciones />} />
                         </Routes>
                     </BrowserRouter>
                 </div>
