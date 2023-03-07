@@ -3,21 +3,14 @@ import { CardEmpleados } from "../../Components/EmpleadosComponenets/CardEmplead
 import axios from "axios";
 import { apiUrl } from "../../context/apiUrl";
 import { useEffect, useState } from "react";
+import { useClient } from "../../context/Context";
 
 export function VerEmpleados() {
-  const [getEmpleado, setGetEmpleado] = useState([]);
 
-  const get = async () => {
-    try {
-      await axios
-        .get("https://localhost:7069/api/Empleados/GetEmpleados")
-        .then((data) => {
-          setGetEmpleado(data.data);
-        });
-    } catch (error) {}
-  };
+  const {getEmpleados, dataEmpleados} = useClient()
+
   useEffect(() => {
-    get();
+    getEmpleados();
   }, []);
 
   return (
@@ -32,7 +25,7 @@ export function VerEmpleados() {
           <span>Salario</span>
         </div>
         <div className={style.data}>
-          {getEmpleado.map((data, iden) => {
+          {dataEmpleados.map((data, iden) => {
             return (
               <CardEmpleados
                 key={data.id}

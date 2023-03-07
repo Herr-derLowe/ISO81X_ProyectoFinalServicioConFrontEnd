@@ -4,6 +4,7 @@ import groupIcon from "../../imgs/group.png";
 import addUserIcon from "../../imgs/addUser.png"
 import { Routes, Route } from "react-router-dom";
 import { VerEmpleados } from "./VerEmpleados";
+import { CrearEmpleado } from "./CrearEmpleado";
 
 export function DashboardEmpleados() {
   return (
@@ -19,7 +20,7 @@ export function DashboardEmpleados() {
         <div className={style.modules}>
           <Routes>
             <Route path="ver" element={<VerEmpleados/>} />
-            <Route path="add" element="" />
+            <Route path="add" element={<CrearEmpleado/>} />
           </Routes>
         </div>
       </div>
