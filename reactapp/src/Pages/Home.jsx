@@ -4,6 +4,7 @@ import { NavLink, Link } from "react-router-dom";
 import employeeimg from "../imgs/flatdesign-employees.jpg";
 import moneydownimg from "../imgs/moneydown.jpg";
 import tipos_de_ingresosimg from "../imgs/tipos_de_ingresos.jpeg";
+import moneytransact from "../imgs/moneytran01.jpg";
 
 
 export class Home extends Component {
@@ -64,7 +65,7 @@ export class Home extends Component {
                     </div>
                     <div className="col">
                         <div className="card">
-                            <img src={tipos_de_ingresosimg} className="card-img-top" alt="..."></img>
+                            <img src={tipos_de_ingresosimg} className="card-img-top" alt="Grafico dinero ascendente"></img>
                             <div className="card-body">
                                 <h5 className="card-title">Gestión de Ingresos</h5>
                                 <p className="card-text">M&oacute;dulo de gesti&oacute;n de Tipos de ingresos destinado al
@@ -82,7 +83,7 @@ export class Home extends Component {
                     </div>
                     <div className="col">
                         <div className="card">
-                            <img src={moneydownimg} className="card-img-top" alt="..."></img>
+                            <img src={moneydownimg} className="card-img-top" alt="Grafico dinero descendente"></img>
                             <div className="card-body">
                                 <h5 className="card-title">Tipos de Deducciones</h5>
                                 <p className="card-text">
@@ -103,11 +104,19 @@ export class Home extends Component {
                     </div>
                     <div className="col">
                         <div className="card">
-                            <img src="..." className="card-img-top" alt="..."></img>
+                            <img src={moneytransact} className="card-img-top" alt="Transacciones dinero"></img>
                             <div className="card-body">
-                                <h5 className="card-title">Card title</h5>
-                                <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <a href="#" className="btn btn-primary">Go somewhere</a>
+                                <h5 className="card-title">Transacciones</h5>
+                                <p className="card-text">
+                                    Modulo de gestion de transacciones de nominas para su registro postumo en contabilidad.
+                                </p>
+                                    <br />
+                                    <NavLink
+                                        className="btn btn-warning fw-bold"
+                                        to="/transacciones"
+                                    >
+                                        Acceder a Transacciones
+                                    </NavLink>
                             </div>
                         </div>
                     </div>

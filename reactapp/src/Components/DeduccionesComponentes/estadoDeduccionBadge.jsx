@@ -1,11 +1,9 @@
 import React from "react";
 
-function EstadoDeduccionBadge(props) {
+export function EstadoDeduccionBadge(props) {
     const estadoDeduccion = props.estadoDeduccion;
     if (estadoDeduccion == "ACTIVO") {
-        return <h6><span className="badge bg-success">ACTIVO</span></h6>;
+        return <h5><span className="badge bg-success">ACTIVO</span></h5>;
     }
-    return <h6><span className="badge bg-danger">INACTIVO</span></h6>;
+    return <h5><span className="badge bg-danger">INACTIVO</span></h5>;
 }
-
-export default EstadoDeduccionBadge;

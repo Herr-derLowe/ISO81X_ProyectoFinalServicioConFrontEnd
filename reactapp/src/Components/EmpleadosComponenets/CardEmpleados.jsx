@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import style from "./CardEmpleados.module.css";
+import closeImg from "../../imgs/close.png";
+import { useClient } from "../../context/Context";
 
 export function CardEmpleados({
   id,
@@ -15,6 +17,8 @@ export function CardEmpleados({
   const [openEdit, setOpenEdit] = useState(false);
   const [cancelBtn, setCancelBtn] = useState(false);
 
+  const { getEmpleados } = useClient();
+
   const [updateVariable, setUpdateVariable] = useState({
     cedula: "",
     name: "",
@@ -28,25 +32,46 @@ export function CardEmpleados({
       ...updateVariable,
       [e.target.name]: e.target.value,
     });
-
-    console.log({ ...updateVariable, [e.target.name]: e.target.value });
   };
 
-  const updateEmpleado = (e) => {
+  const updateEmpleado = async (e) => {
     e.preventDefault();
     if (cancelBtn) {
       setOpenEdit(false);
-      console.log("Holaaaa");
     } else {
-      console.log("Entre aqui");
+      try {
+        await axios
+          .put("https://localhost:7069/api/Empleados/UpdateEmpleado/" + id, {
+            cedulaEmpleado:
+              updateVariable.cedula != "" ? updateVariable.cedula : cedula,
+            nombreEmpleado:
+              updateVariable.name != "" ? updateVariable.name : empleado,
+            departamento:
+              updateVariable.department != ""
+                ? updateVariable.department
+                : departamento,
+            puestoEmpleado:
+              updateVariable.puesto != "" ? updateVariable.puesto : puesto,
+            salarioMensual:
+              updateVariable.salary != "" ? updateVariable.salary : salario,
+          })
+          .then(() => {
+            getEmpleados();
+            setOpenEdit(false)
+            setOpenPanel(false)
+          });
+      } catch (error) {}
     }
   };
 
   const deleteEmpleado = async () => {
     try {
-      await axios.delete(
-        "https://loclahost:7069/api/Empleados/DeleteEmpleado/" + id
-      );
+      await axios
+        .delete("https://localhost:7069/api/Empleados/DeleteEmpleado/" + id)
+        .then(() => {
+          getEmpleados();
+          setOpenPanel(false)
+        });
     } catch (error) {
       console.log("Error en enviar la solicitud.");
     }
@@ -88,7 +113,14 @@ export function CardEmpleados({
             onClick={() => setOpenEdit(false)}
           ></div>
           <div className={style.editPanel}>
-            <div></div>
+            <div className={style.contClose}>
+              <div
+                className={style.contPicture}
+                onClick={() => setOpenEdit(false)}
+              >
+                <img src={closeImg} alt="Icono de close" />
+              </div>
+            </div>
             <form onSubmit={updateEmpleado}>
               <div className={style.formTitle}>
                 <h2>Editar</h2>
@@ -116,7 +148,7 @@ export function CardEmpleados({
 
               <div className={style.inputs}>
                 <span>Salario</span>
-                <input name="salary" type="number" onChange={handleChange} />
+                <input name="salary" type="number" onChange={handleChange} step="0.01"/>
               </div>
 
               <div className={style.sendForm}>

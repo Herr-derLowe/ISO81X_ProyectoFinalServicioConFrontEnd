@@ -109,11 +109,11 @@ p{
 
 .sendForm{
     width: 100%;
-    height: 20%;
+
+    margin-top: 2rem;
 
     display: flex;
     justify-content: center;
-    align-items: flex-end;
     gap: 2rem;
 }
 
@@ -136,4 +136,34 @@ p{
 }
 .sendForm button:nth-child(2){
     background-color: #B60C01;
+}
+
+.contClose{
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    padding-right: 2rem;
+}
+
+.contPicture{
+    width: 2rem;
+    height: 2rem;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+}
+
+.contPicture img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.contPicture:hover{
+    transform: scale(1.1);
 }
