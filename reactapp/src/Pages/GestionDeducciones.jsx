@@ -367,7 +367,7 @@ export class GestionDeducciones extends Component {
 
                                                                                 <div className="mb-3">
                                                                                     <label htmlFor="inputClaveDeduccion" className="form-label">Clave del tipo de Deducci&oacute;n de Nomina(001, 002, ...)</label>
-                                                                                    <input type="text"
+                                                                                    <input type="number"
                                                                                         className="form-control"
                                                                                         id="inputClaveDeduccion"
                                                                                         placeholder="001, 002, ..."

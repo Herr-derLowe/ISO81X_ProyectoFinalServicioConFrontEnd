@@ -276,7 +276,7 @@ export class Ingresos extends Component {
 
                                                                                 <div className="mb-3">
                                                                                     <label htmlFor="inputClaveIngreso" className="form-label">Clave del tipo de Ingreso de Nomina (001, 002, ...)</label>
-                                                                                    <input type="text"
+                                                                                    <input type="number"
                                                                                         className="form-control"
                                                                                         id="inputClaveIngreso"
                                                                                         placeholder="001, 002, ..."
