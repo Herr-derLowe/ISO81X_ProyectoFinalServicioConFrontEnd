@@ -11,15 +11,18 @@ export class Transacciones extends React.Component {
         this.state = {
             transacciones: [],
             empleados: [],
+            deducciones: [],
             id: "",
             modalTitle: "",
 
             empleado_id: "",
             tipoTransaccion: "",
+            deduccion: "",
             ingresoDeduccion_id: "",
             fechaTransaccion: "",
             montoTransaccion: "",
             estadoTransaccion: "",
+            empleado: "",
 
         }
     }
@@ -41,6 +44,13 @@ export class Transacciones extends React.Component {
             })
     }
 
+    getDeducciones() {
+        axios.get(variables.API_URL + 'TiposDeducciones/GetTiposDeducciones')
+            .then(res => {
+                const data = res.data;
+                this.setState({ deducciones: data });
+            })
+    }
     componentDidMount() {
 
         this.refreshList();
@@ -48,6 +58,7 @@ export class Transacciones extends React.Component {
 
     addClick() {
         this.getEmpleados();
+        this.getDeducciones();
         this.setState({
             modalTitle: "Agregar Tipo de ingreso",
             claveIngreso: "",
@@ -57,16 +68,57 @@ export class Transacciones extends React.Component {
         });
     }
 
+    changeDeduccion = (e) => {
+        this.setState({ deduccion: e.target.value });
+    }
+    changeEmpleado = (e) => {
+        this.setState({ empleado: e.target.value });
+    }
+    changeMonto = (e) => {
+        this.setState({ montoTransaccion: e.target.value });
+    }
+    changeTipo = (e) => {
+        this.setState({ tipoTransaccion: e.target.value });
+    }
+    createClick() {
+        const MySwal = withReactContent(Swal)
+
+
+
+        axios.post(variables.API_URL + 'Transacciones/PostAddTransaccion', {
+            empleado_id: this.state.empleado,
+            tipoTransaccion: this.state.tipoTransaccion,
+            ingresoDeduccion_id: '',
+            fechaTransaccion: '',
+            montoTransaccion: this.state.montoTransaccion,
+            estadoTransaccion: ''
+        })
+            .then(() => {
+                MySwal.fire({
+                    title: <strong>Transaccion Insertada!</strong>,
+                    icon: 'success'
+                });
+                this.refreshList();
+            }, (error) => {
+                MySwal.fire({
+                    title: <strong>Error: No se pudo insertar la transaccion...</strong>,
+                    icon: 'error'
+                });
+                console.log(error);
+            })
+    }
+
     render() {
         const {
             transacciones,
-           empleados,
+            empleados,
+            deducciones,
             modalTitle,
             id,
             empleado_id,
             tipoTransaccion,
             ingresoDeduccion_id,
-            fechaTransaccion, 
+            fechaTransaccion,
             montoTransaccion,
             estadoTransaccion
 
@@ -117,7 +169,7 @@ export class Transacciones extends React.Component {
                                                                 <td></td>
                                                             </tr>
 
-                                                            )}
+                                                        )}
 
                                                     </tbody>
                                                 </table>
@@ -144,38 +196,55 @@ export class Transacciones extends React.Component {
                                                                                 onChange={this.changeEmpleado}
                                                                             >
                                                                                 {empleados.map(e =>
-                                                                                    <option value="{e.id}">{e.nombreEmpleado}</option>
-
-                                                                                    )}
-                                                                            </select>
-                                                                        </div>
-
-                                                                        <div className="mb-3">
-                                                                            <label htmlFor="inputEmpleado" className="form-label">Empleado</label>
-
-                                                                            <select
-                                                                                className="form-select"
-                                                                                id="inputEmpleado"
-                                                                                onChange={this.changeEmpleado}
-                                                                            >
-                                                                                {empleados.map(e =>
-                                                                                    <option value="{e.id}">{e.nombreEmpleado}</option>
+                                                                                    <option value={e.id}>{e.nombreEmpleado}</option>
 
                                                                                 )}
                                                                             </select>
                                                                         </div>
-                                                                        <br />
-                                                                        <div className="input-group mb-3">
-                                                                            <label className="input-group-text" htmlFor="inputGroupSelectCondicion">Estado Deducci&oacute;n Nomina</label>
+
+                                                                        <div className="mb-3">
+                                                                            <label htmlFor="inputDeduccion" className="form-label">Tipo de Deduccion</label>
+
                                                                             <select
                                                                                 className="form-select"
-                                                                                id="inputGroupSelectCondicion"
-                                                                                onChange={this.changeEstadoIngreso}
+                                                                                id="inputDeduccion"
+                                                                                onChange={this.changeDeduccion}
                                                                             >
-                                                                                <option value="ACTIVO">Activo</option>
-                                                                                <option value="INACTIVO">Inactivo</option>
+                                                                                {deducciones.map(e =>
+                                                                                    <option value={e.id}>{e.nombreDeduccion}</option>
+
+                                                                                )}
                                                                             </select>
                                                                         </div>
+
+                                                                        <div className="input-group mb-3">
+                                                                            <label className="input-group-text" htmlFor="inputTipo">Tipo de Transaccion</label>
+                                                                            <select
+                                                                                className="form-select"
+                                                                                id="inputTipo"
+                                                                                value={tipoTransaccion}
+                                                                                onChange={this.changeTipo}
+                                                                            >
+                                                                                <option value="INGRESO">Ingreso</option>
+                                                                                <option value="GASTO">Gasto</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div className="mb-3">
+                                                                            <label htmlFor="inputMonto" className="form-label">Monto</label>
+                                                                            <input
+                                                                                type="text"
+                                                                                id="inputMonto"
+                                                                                className="form-control"
+                                                                                value={montoTransaccion}
+                                                                                onChange={this.changeMonto}
+                                                                                placeholder="Monto"
+                                                                                required={true}
+                                                                            />
+                                                                            <div className="invalid-feedback">
+                                                                                Favor ingresar un monto
+                                                                            </div>
+                                                                        </div>
+                                                                        <br />
                                                                     </div>
                                                                 </div>
 
