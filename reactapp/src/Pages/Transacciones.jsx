@@ -117,10 +117,10 @@ export class Transacciones extends React.Component {
 
     getDeducIng(t) {
         if (t.tipoTransaccion == "INGRESO") {
-            return this.state.ingresos.find(e => e.id == t.ingresoDeduccion_id).nombreIngreso
+            return this.state.ingresos.find(e => e.id == t.ingresoDeduccion_id)?.nombreIngreso
 
         } else {
-            return this.state.deducciones.find(e => e.id == t.ingresoDeduccion_id).nombreDeduccion
+            return this.state.deducciones.find(e => e.id == t.ingresoDeduccion_id)?.nombreDeduccion
         }
     }
 
@@ -357,7 +357,7 @@ export class Transacciones extends React.Component {
                                                         {transacciones.map(t =>
                                                             <tr key={t.id}>
                                                                 <td>{t.id}</td>
-                                                                <td>{this.state.empleados.find(e => e.id == t.empleado_id).nombreEmpleado}</td>
+                                                                <td>{this.state.empleados.find(e => e.id == t.empleado_id)?.nombreEmpleado}</td>
                                                                 <td>{
                                                                     this.getDeducIng(t)
                                                                 }</td>
