@@ -146,7 +146,7 @@ export class Transacciones extends React.Component {
         this.getDeducciones();
         this.getIngresos();
         this.setState({
-            modalTitle: "Editar Tipo de Ingreso",
+            modalTitle: "Editar Transaccion",
             id: t.id,
             empleado: t.empleado_id,
             tipoTransaccion: t.tipoTransaccion,
@@ -176,6 +176,11 @@ export class Transacciones extends React.Component {
         }
 
     }
+
+    changeEstadoT = (e) => {
+        this.setState({ estadoTransaccion: e.target.value });
+    }
+
     createClick() {
         const MySwal = withReactContent(Swal)
 
@@ -187,7 +192,7 @@ export class Transacciones extends React.Component {
             ingresoDeduccion_id: this.state.deduccion,
             fechaTransaccion: new Date(),
             montoTransaccion: this.state.montoTransaccion,
-            estadoTransaccion: 'PENDIENTE APROBACION'
+            estadoTransaccion: this.state.estadoTransaccion
         })
             .then(() => {
                 MySwal.fire({
@@ -215,11 +220,11 @@ export class Transacciones extends React.Component {
             ingresoDeduccion_id: this.state.deduccion,
             fechaTransaccion: new Date(),
             montoTransaccion: this.state.montoTransaccion,
-            estadoTransaccion: 'PENDIENTE APROBACION'
+            estadoTransaccion: this.state.estadoTransaccion
         })
             .then(() => {
                 MySwal.fire({
-                    title: <strong>Ingreso Actualizado!</strong>,
+                    title: <strong>Transaccion Actualizada!</strong>,
                     icon: 'success',
                     didClose: () => {
                         this.refreshList()
@@ -228,7 +233,7 @@ export class Transacciones extends React.Component {
                 this.refreshList();
             }, (error) => {
                 MySwal.fire({
-                    title: <strong>Error: No se pudo actualizar el ingreso...</strong>,
+                    title: <strong>Error: No se pudo actualizar la transaccion...</strong>,
                     icon: 'error'
                 });
                 this.refreshList();
@@ -449,6 +454,18 @@ export class Transacciones extends React.Component {
                                                                             <div className="invalid-feedback">
                                                                                 Favor ingresar un monto
                                                                             </div>
+                                                                        </div>
+                                                                        <div className="input-group mb-3">
+                                                                            <label className="input-group-text" htmlFor="inputGroupSelectEstado">Estado Transacci&oacute;n</label>
+                                                                            <select
+                                                                                className="form-select"
+                                                                                id="inputGroupSelectEstado"
+                                                                                value={estadoTransaccion}
+                                                                                onChange={this.changeEstadoT}
+                                                                            >
+                                                                                <option value="PENDIENTE APROBACION">Pendiente Aprobaci&oacute;n</option>
+                                                                                <option value="APROBADA">Aprobada</option>
+                                                                            </select>
                                                                         </div>
                                                                         <br />
                                                                     </div>

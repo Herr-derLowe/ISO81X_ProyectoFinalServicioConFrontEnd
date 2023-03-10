@@ -29,7 +29,7 @@ export class GestionDeducciones extends Component {
     FilterFn() {
         var DeduccionClaveFilter = this.state.DeduccionClaveFilter;
         var DeduccionNombreFilter = this.state.DeduccionNombreFilter;
-        var DeduccionDependeSalarioFilter = this.state.DeduccionDependeSalarioFilter;
+        //var DeduccionDependeSalarioFilter = this.state.DeduccionDependeSalarioFilter;
         var EstadoDeduccionFilter = this.state.EstadoDeduccionFilter;
 
 
