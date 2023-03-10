@@ -78,7 +78,9 @@ export class Ingresos extends Component {
         //});
 
         let nombreValidate, claveValidate;
-        if (this.state.claveIngreso === "") {
+        if (this.state.claveIngreso === "" ||
+            Number(this.state.claveIngreso) < 1 ||
+            Number(this.state.claveIngreso) > 999) {
             claveValidate = null;
         } else {
             claveValidate = this.state.claveIngreso;
@@ -115,7 +117,9 @@ export class Ingresos extends Component {
         const MySwal = withReactContent(Swal)
 
         let nombreValidate, claveValidate;
-        if (this.state.claveIngreso === "") {
+        if (this.state.claveIngreso === "" ||
+            Number(this.state.claveIngreso) < 1 ||
+            Number(this.state.claveIngreso) > 999) {
             claveValidate = null;
         } else {
             claveValidate = this.state.claveIngreso;
@@ -285,7 +289,8 @@ export class Ingresos extends Component {
                                                                                         step="1"
                                                                                         required={true}
                                                                                         pattern="^[0-9]\d\d$"
-                                                                                        maxLength="3"
+                                                                                        min="1"
+                                                                                        max="999"
                                                                                     />
                                                                                     <div className="invalid-feedback">
                                                                                         Favor ingresar una clave para el ingreso.
