@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { variables } from '../Components/Variables';
 import axios from 'axios';
@@ -140,7 +140,9 @@ export class GestionDeducciones extends Component {
         //    icon: 'success'
         //});
         let nombreValidate, claveValidate;
-        if (this.state.claveDeduccion === "") {
+        if (this.state.claveDeduccion === "" ||
+            Number(this.state.claveDeduccion) < 1 ||
+            Number(this.state.claveDeduccion) > 999) {
             claveValidate = null;
         } else {
             claveValidate = this.state.claveDeduccion;
@@ -190,7 +192,9 @@ export class GestionDeducciones extends Component {
         const MySwal = withReactContent(Swal)
 
         let nombreValidate, claveValidate;
-        if (this.state.claveIngreso === "") {
+        if (this.state.claveDeduccion === "" ||
+            Number(this.state.claveDeduccion) < 1 ||
+            Number(this.state.claveDeduccion) > 999) {
             claveValidate = null;
         } else {
             claveValidate = this.state.claveDeduccion;
@@ -376,7 +380,8 @@ export class GestionDeducciones extends Component {
                                                                                         step="1"
                                                                                         required={true}
                                                                                         pattern="^[0-9]\d\d$"
-                                                                                        maxLength="3"
+                                                                                        min="1"
+                                                                                        max="999"
                                                                                     />
                                                                                     <div className="invalid-feedback">
                                                                                         Favor ingresar una clave para la deducci&oacute;n.
