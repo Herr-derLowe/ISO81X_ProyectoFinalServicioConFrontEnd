@@ -292,7 +292,7 @@ export class Transacciones extends React.Component {
             estadoTransaccion
 
         } = this.state;
-        
+
         const renderDeduccion = () => {
             if (tipoTransaccion == "DEDUCCION") {
                 return (<>
@@ -348,7 +348,6 @@ export class Transacciones extends React.Component {
                                                 <table className="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th>ID</th>
                                                             <th>Empleado</th>
                                                             <th>Deduccion/Ingreso</th>
                                                             <th>Tipo</th>
@@ -361,7 +360,6 @@ export class Transacciones extends React.Component {
                                                     <tbody>
                                                         {transacciones.map(t =>
                                                             <tr key={t.id}>
-                                                                <td>{t.id}</td>
                                                                 <td>{this.state.empleados.find(e => e.id == t.empleado_id)?.nombreEmpleado}</td>
                                                                 <td>{
                                                                     this.getDeducIng(t)
@@ -381,7 +379,7 @@ export class Transacciones extends React.Component {
                                                                             <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                                                         </svg> Editar
                                                                     </button>
-
+                                                                    <br></br>
                                                                     <button type="button"
                                                                         className="btn btn-danger mr-1"
                                                                         onClick={() => this.deleteClick(t.id)}>
@@ -496,13 +494,16 @@ export class Transacciones extends React.Component {
                                 <div className="col-12 col-lg-3 mb-3">
                                     <div className="card">
                                         <div className="card-body">
-                                            <button type="button"
-                                                className="btn btn-primary m-2 float-end"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"
-                                                onClick={() => this.addClick()}>
-                                                A&ntilde;adir Transaccion
-                                            </button>
+                                            <div className="text-center px-xl-3">
+
+                                                <button type="button"
+                                                    className="btn btn-primary btn-block"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal"
+                                                    onClick={() => this.addClick()}>
+                                                    A&ntilde;adir Transacci&oacute;n
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
