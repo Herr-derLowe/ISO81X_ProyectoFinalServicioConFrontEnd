@@ -36,9 +36,17 @@ namespace webapi.Controllers
         [Route("PostAddTransaccion")]
         public async Task<IActionResult> Post(Transacciones newTransaccion)
         {
-            await _transaccionesService.CreateAsync(newTransaccion);
+            if (ModelState.IsValid)
+            {
+                await _transaccionesService.CreateAsync(newTransaccion);
 
-            return CreatedAtAction(nameof(Get), new { id = newTransaccion.Id }, newTransaccion);
+                return CreatedAtAction(nameof(Get), new { id = newTransaccion.Id }, newTransaccion);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+
         }
 
 

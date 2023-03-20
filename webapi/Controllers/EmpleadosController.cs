@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using webapi.Models;
 using webapi.Services;
 
@@ -36,9 +37,20 @@ namespace webapi.Controllers
         [Route("PostAddEmpleado")]
         public async Task<IActionResult> Post(Empleados newEmpleado)
         {
-            await _empleadosService.CreateAsync(newEmpleado);
+            if (!validaCedula(newEmpleado.cedulaEmpleado))
+            {
+                ModelState.AddModelError("cedulaEmpleado", "La cedula ingresada no es valida");
+            }
+            if (ModelState.IsValid)
+            {
+                await _empleadosService.CreateAsync(newEmpleado);
 
-            return CreatedAtAction(nameof(Get), new { id = newEmpleado.Id }, newEmpleado);
+                return CreatedAtAction(nameof(Get), new { id = newEmpleado.Id }, newEmpleado);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
 
@@ -55,9 +67,22 @@ namespace webapi.Controllers
 
             updatedEmpleado.Id = empleado.Id;
 
-            await _empleadosService.UpdateAsync(id, updatedEmpleado);
+            if (!validaCedula(updatedEmpleado.cedulaEmpleado))
+            {
+                ModelState.AddModelError("cedulaEmpleado", "La cedula ingresada no es valida");
+            }
 
-            return NoContent();
+            if (ModelState.IsValid)
+            {
+                await _empleadosService.UpdateAsync(id, updatedEmpleado);
+
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+            
         }
 
         [HttpDelete]
@@ -74,6 +99,29 @@ namespace webapi.Controllers
             await _empleadosService.RemoveAsync(id);
 
             return NoContent();
+        }
+
+        public static bool validaCedula(string pCedula)
+
+        {
+            int vnTotal = 0;
+            string vcCedula = pCedula.Replace("-", "");
+            int pLongCed = vcCedula.Trim().Length;
+            int[] digitoMult = new int[11] { 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1 };
+            if (pLongCed < 11 || pLongCed > 11)
+                return false;
+            for (int vDig = 1; vDig <= pLongCed; vDig++)
+            {
+                int vCalculo = Int32.Parse(vcCedula.Substring(vDig - 1, 1)) * digitoMult[vDig - 1];
+                if (vCalculo < 10)
+                    vnTotal += vCalculo;
+                else
+                    vnTotal += Int32.Parse(vCalculo.ToString().Substring(0, 1)) + Int32.Parse(vCalculo.ToString().Substring(1, 1));
+            }
+            if (vnTotal % 10 == 0)
+                return true;
+            else
+                return false;
         }
     }
 }

@@ -36,9 +36,16 @@ namespace webapi.Controllers
         [Route("PostAddTipoIngreso")]
         public async Task<IActionResult> Post(TiposIngresos newTipoIngreso)
         {
-            await _tiposIngresosService.CreateAsync(newTipoIngreso);
+            if (ModelState.IsValid)
+            {
+                await _tiposIngresosService.CreateAsync(newTipoIngreso);
 
-            return CreatedAtAction(nameof(Get), new { id = newTipoIngreso.Id }, newTipoIngreso);
+                return CreatedAtAction(nameof(Get), new { id = newTipoIngreso.Id }, newTipoIngreso);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
 
@@ -54,10 +61,17 @@ namespace webapi.Controllers
             }
 
             updatedTipoIngreso.Id = tipoIngreso.Id;
+            if (ModelState.IsValid)
+            {
+                await _tiposIngresosService.UpdateAsync(id, updatedTipoIngreso);
 
-            await _tiposIngresosService.UpdateAsync(id, updatedTipoIngreso);
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
 
-            return NoContent();
         }
 
         [HttpDelete]
