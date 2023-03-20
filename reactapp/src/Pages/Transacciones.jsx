@@ -3,6 +3,8 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
 import { variables } from '../Components/Variables';
 import axios from 'axios';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 const cache_ingresos = {};
 const cache_deducciones = {};
@@ -150,7 +152,7 @@ export class Transacciones extends React.Component {
             id: t.id,
             empleado: t.empleado_id,
             tipoTransaccion: t.tipoTransaccion,
-            fechaTransaccion: t.fechaTransaccion,
+            fechaTransaccion: new Date(t.fechaTransaccion),
             montoTransaccion: t.montoTransaccion,
             estadoTransaccion: t.estadoTransaccion
         });
@@ -161,6 +163,10 @@ export class Transacciones extends React.Component {
     changeEmpleado = (e) => {
         console.log("INIT ", e);
         this.setState({ empleado: e.target.value });
+    }
+    changeFechaTransaccion = (e) => {
+        console.log(e);
+        this.setState({ fechaTransaccion: e });
     }
     changeMonto = (e) => {
         this.setState({ montoTransaccion: e.target.value });
@@ -190,7 +196,7 @@ export class Transacciones extends React.Component {
             empleado_id: this.state.empleado,
             tipoTransaccion: this.state.tipoTransaccion,
             ingresoDeduccion_id: this.state.deduccion,
-            fechaTransaccion: new Date(),
+            fechaTransaccion: this.state.fechaTransaccion,
             montoTransaccion: this.state.montoTransaccion,
             estadoTransaccion: this.state.estadoTransaccion
         })
@@ -218,7 +224,7 @@ export class Transacciones extends React.Component {
             empleado_id: this.state.empleado,
             tipoTransaccion: this.state.tipoTransaccion,
             ingresoDeduccion_id: this.state.deduccion,
-            fechaTransaccion: new Date(),
+            fechaTransaccion: this.state.fechaTransaccion,
             montoTransaccion: this.state.montoTransaccion,
             estadoTransaccion: this.state.estadoTransaccion
         })
@@ -303,7 +309,7 @@ export class Transacciones extends React.Component {
                         onChange={this.changeDeduccion}
                     >
                         {deducciones.map(e =>
-                            <option value={e.id}>{e.nombreDeduccion}</option>
+                            <option key={e.id} value={e.id}>{e.nombreDeduccion}</option>
 
                         )}
                     </select>
@@ -318,7 +324,7 @@ export class Transacciones extends React.Component {
                         onChange={this.changeDeduccion}
                     >
                         {ingresos.map(e =>
-                            <option value={e.id}>{e.nombreIngreso}</option>
+                            <option key={ e.id} value={e.id}>{e.nombreIngreso}</option>
 
                         )}
                     </select>
@@ -365,7 +371,7 @@ export class Transacciones extends React.Component {
                                                                     this.getDeducIng(t)
                                                                 }</td>
                                                                 <td>{t.tipoTransaccion}</td>
-                                                                <td>{t.fechaTransaccion}</td>
+                                                                <td>{new Date(t.fechaTransaccion).toISOString().split('T')[0]}</td>
                                                                 <td>{t.montoTransaccion}</td>
                                                                 <td>{t.estadoTransaccion}</td>
                                                                 <td>
@@ -416,7 +422,7 @@ export class Transacciones extends React.Component {
                                                                                 onChange={this.changeEmpleado}
                                                                             >
                                                                                 {empleados.map(e =>
-                                                                                    <option value={e.id}>{e.nombreEmpleado}</option>
+                                                                                    <option key={e.id} value={e.id}>{e.nombreEmpleado}</option>
 
                                                                                 )}
                                                                             </select>
@@ -436,6 +442,17 @@ export class Transacciones extends React.Component {
 
                                                                         <div className="mb-3">
                                                                             {renderDeduccion()}
+                                                                        </div>
+
+                                                                        <div className="mb-3">
+                                                                            <label htmlFor="inputFechaTransac" className="form-label">Fecha de Transacci&oacute;n</label>
+                                                                            <DatePicker
+                                                                                id="inputFechaTransac"
+                                                                                closeOnScroll={true}
+                                                                                shouldCloseOnSelect={true }
+                                                                                selected={fechaTransaccion}
+                                                                                onChange={this.changeFechaTransaccion}
+                                                                            />
                                                                         </div>
 
                                                                         <div className="mb-3">
