@@ -3,8 +3,9 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
 import { variables } from '../Components/Variables';
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from 'react-date-picker';
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
 
 const cache_ingresos = {};
 const cache_deducciones = {};
@@ -446,12 +447,15 @@ export class Transacciones extends React.Component {
 
                                                                         <div className="mb-3">
                                                                             <label htmlFor="inputFechaTransac" className="form-label">Fecha de Transacci&oacute;n</label>
+                                                                            <br/>
                                                                             <DatePicker
                                                                                 id="inputFechaTransac"
-                                                                                closeOnScroll={true}
-                                                                                shouldCloseOnSelect={true }
-                                                                                selected={fechaTransaccion}
                                                                                 onChange={this.changeFechaTransaccion}
+                                                                                value={fechaTransaccion}
+                                                                                clearIcon={null}
+                                                                                format="yyyy-MM-dd"
+                                                                                className="form-control"
+                                                                                closeCalendar
                                                                             />
                                                                         </div>
 
@@ -470,6 +474,7 @@ export class Transacciones extends React.Component {
                                                                                 Favor ingresar un monto
                                                                             </div>
                                                                         </div>
+
                                                                         <div className="input-group mb-3">
                                                                             <label className="input-group-text" htmlFor="inputGroupSelectEstado">Estado Transacci&oacute;n</label>
                                                                             <select

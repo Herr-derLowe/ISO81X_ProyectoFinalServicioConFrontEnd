@@ -26,5 +26,7 @@ namespace webapi.Models
 
         [BsonRequired]
         public string estadoTransaccion { get; set; }
+
+        public int? idAsiento { get; set; } = null!;
     }
 }
