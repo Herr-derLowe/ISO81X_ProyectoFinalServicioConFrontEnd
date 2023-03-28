@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using webapi.Models;
 using webapi.Services;
 
@@ -6,6 +8,7 @@ namespace webapi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Administrador,Omnissiah")]
     public class TiposIngresosController : ControllerBase
     {
         private readonly TiposIngresosService _tiposIngresosService;

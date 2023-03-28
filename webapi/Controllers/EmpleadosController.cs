@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using webapi.Models;
 using webapi.Services;
@@ -7,6 +8,7 @@ namespace webapi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Administrador,Omnissiah")]
     public class EmpleadosController : ControllerBase
     {
         private readonly EmpleadosService _empleadosService;

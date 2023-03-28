@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using webapi.Models;
 using webapi.Services;
 
@@ -6,6 +8,7 @@ namespace webapi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Administrador,Omnissiah")]
     public class TransaccionesController : ControllerBase
     {
         private readonly TransaccionesService _transaccionesService;
@@ -17,6 +20,20 @@ namespace webapi.Controllers
         [Route("GetTransacciones")]
         public async Task<List<Transacciones>> Get() =>
             await _transaccionesService.GetAsync();
+
+        [HttpGet]
+        [Route("GetTransaccionesAsientoNull")]
+        public async Task<List<Transacciones>> GetTransaccionesAsientoNull() =>
+            await _transaccionesService.GetTransacAsntIdNullAsync();
+
+        [HttpGet]
+        [Route("GetTransacBetweenFechas")]
+        public async Task<List<Transacciones>> GetTransacBetweenFechas(string datelow, string datehigh) =>
+            await _transaccionesService.GetTransacBetweenFechas(DateTime.Parse(datelow), DateTime.Parse(datehigh));
+        [HttpGet]
+        [Route("GetTransacNullAsntBetweenFechas")]
+        public async Task<List<Transacciones>> GetTransacNullAsntBetweenFechas(string datelow, string datehigh) =>
+            await _transaccionesService.GetTransacNullBetweenFechas(DateTime.Parse(datelow), DateTime.Parse(datehigh));
 
         [HttpGet]
         [Route("GetTransaccionById/{id:length(24)}")]
@@ -64,6 +81,20 @@ namespace webapi.Controllers
             updatedTransaccion.Id = transaccion.Id;
 
             await _transaccionesService.UpdateAsync(id, updatedTransaccion);
+
+            return NoContent();
+        }
+        [HttpPut]
+        [Route("UpdtTrasacNullIdBtwnFechas")]
+        public async Task<IActionResult> UpdtTrasacNullIdBtwnFechas(string dateLower, string dateUpper, int idAsiento)
+        {
+            if (string.IsNullOrWhiteSpace(dateLower) || string.IsNullOrWhiteSpace(dateUpper)
+                || !DateTime.TryParse(dateLower, out DateTime result) || !DateTime.TryParse(dateUpper, out DateTime result1))
+            {
+                return BadRequest("Una o ambas fechas no son validas");
+            }
+            
+            await _transaccionesService.UpdtTrasacNullIdBtwnFechas(DateTime.Parse(dateLower), DateTime.Parse(dateUpper), idAsiento);
 
             return NoContent();
         }
