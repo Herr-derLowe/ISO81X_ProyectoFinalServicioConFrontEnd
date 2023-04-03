@@ -36,7 +36,8 @@ internal class Program
                 ValidIssuer = builder.Configuration["JWT:Issuer"],
                 ValidAudience = builder.Configuration["JWT:Audience"],
                 IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+                    Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+                ClockSkew = TimeSpan.Zero
             };
         });
 
