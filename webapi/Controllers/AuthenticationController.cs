@@ -92,7 +92,7 @@ namespace webapi.Controllers
         }
 
         [HttpGet]
-        [Route("verifyjwt")]
+        [Route("verifyjwt/{JWtoken}")]
         public bool VerifyJWT(string JWtoken)
         {
             var validationParameters = new TokenValidationParameters()
