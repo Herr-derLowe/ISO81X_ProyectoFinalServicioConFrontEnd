@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson.IO;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -88,6 +90,39 @@ namespace webapi.Controllers
             };
             return Ok(usuarioLoggedToken);
         }
+
+        [HttpGet]
+        [Route("verifyjwt")]
+        public bool VerifyJWT(string JWtoken)
+        {
+            var validationParameters = new TokenValidationParameters()
+            {
+                ValidIssuer = _configuration["JWT:Issuer"],
+                ValidAudience = _configuration["JWT:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(_configuration["JWT:Key"])),
+                ValidateLifetime = true,
+                ValidateAudience = true,
+                ValidateIssuer = true,
+                ValidateIssuerSigningKey = true,
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken validatedToken = null;
+            try
+            {
+                tokenHandler.ValidateToken(JWtoken, validationParameters, out validatedToken);
+            }
+            catch (SecurityTokenException)
+            {
+                return false;
+            }catch(Exception ex)
+            {
+                return false;
+            }
+            
+            return validatedToken != null;
+        }
         private string CreateToken(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
@@ -108,6 +143,7 @@ namespace webapi.Controllers
 
         [HttpDelete]
         [Route("DeleteUsuario/{id:length(24)}")]
+        [Authorize(Roles = "Omnissiah")]
         public async Task<IActionResult> Delete(string id)
         {
             var usuario = await _usuariosService.GetAsync(id);
