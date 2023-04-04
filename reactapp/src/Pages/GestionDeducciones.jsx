@@ -5,6 +5,7 @@ import { variables } from '../Components/Variables';
 import axios from 'axios';
 import { DependeSalarioCheck } from '../Components/DeduccionesComponentes/DependeSalarioCheck';
 import { EstadoDeduccionBadge } from '../Components/DeduccionesComponentes/estadoDeduccionBadge';
+import AuthenticationHeader from '../context/AuthenticationHeader'
 
 export class GestionDeducciones extends Component {
     constructor(props) {
@@ -88,7 +89,9 @@ export class GestionDeducciones extends Component {
         //    .then(data => {
         //        this.setState({ deducciones: data });
         //    });
-        axios.get(variables.API_URL + 'tiposdeducciones/GetTiposDeducciones')
+        axios.get(variables.API_URL + 'tiposdeducciones/GetTiposDeducciones', {
+            headers: AuthenticationHeader()
+        })
             .then(res => {
                 const data = res.data;
                 this.setState({ deducciones:data , deduccionesWithoutFilter:data});
@@ -157,6 +160,8 @@ export class GestionDeducciones extends Component {
             nombreDeduccion: nombreValidate,
             dependeSalarioD: this.state.dependeSalarioD,
             estadoDeduccion: this.state.estadoDeduccion
+        }, {
+            headers: AuthenticationHeader()
         })
             .then(() => {
                 MySwal.fire({
@@ -211,6 +216,8 @@ export class GestionDeducciones extends Component {
             nombreDeduccion: nombreValidate,
             dependeSalarioD: this.state.dependeSalarioD,
             estadoDeduccion: this.state.estadoDeduccion
+        }, {
+            headers: AuthenticationHeader()
         })
             .then(() => {
                 MySwal.fire({
@@ -257,7 +264,9 @@ export class GestionDeducciones extends Component {
             confirmButtonText: 'Si, Eliminalo!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(variables.API_URL + 'tiposdeducciones/DeleteTipoDeduccion/' + id)
+                axios.delete(variables.API_URL + 'tiposdeducciones/DeleteTipoDeduccion/' + id, {
+                    headers: AuthenticationHeader()
+                })
                     .then(() => {
                         MySwal.fire({
                             title: 'Tipo de Deduccion Eliminada!',

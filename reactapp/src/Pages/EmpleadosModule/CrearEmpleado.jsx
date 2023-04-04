@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import AuthenticationHeader from "../../context/AuthenticationHeader";
 
 export function CrearEmpleado() {
   const [updateVariable, setUpdateVariable] = useState({
@@ -75,6 +76,8 @@ export function CrearEmpleado() {
                       departamento: updateVariable.department,
                       puestoEmpleado: updateVariable.puesto,
                       salarioMensual: updateVariable.salary,
+                  }, {
+                      headers: AuthenticationHeader()
                   })
                   .then(() => {
                       navigate("/empleados/ver");

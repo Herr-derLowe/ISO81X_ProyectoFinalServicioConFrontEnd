@@ -6,6 +6,7 @@ import axios from 'axios';
 import DatePicker from 'react-date-picker';
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
+import AuthenticationHeader from "../context/AuthenticationHeader";
 
 const cache_ingresos = {};
 const cache_deducciones = {};
@@ -41,7 +42,9 @@ export class Transacciones extends React.Component {
         this.getEmpleados();
         this.getDeducciones();
         this.getIngresos();
-        axios.get(variables.API_URL + 'Transacciones/GetTransacciones')
+        axios.get(variables.API_URL + 'Transacciones/GetTransacciones', {
+            headers: AuthenticationHeader()
+        })
             .then(res => {
                 const data = res.data;
 
@@ -50,7 +53,9 @@ export class Transacciones extends React.Component {
     }
 
     getEmpleados() {
-        axios.get(variables.API_URL + 'Empleados/GetEmpleados')
+        axios.get(variables.API_URL + 'Empleados/GetEmpleados', {
+            headers: AuthenticationHeader()
+        })
             .then(res => {
                 const data = res.data;
                 this.setState({ empleados: data, empleado: data[0].id });
@@ -58,7 +63,9 @@ export class Transacciones extends React.Component {
     }
 
     getDeducciones() {
-        axios.get(variables.API_URL + 'TiposDeducciones/GetTiposDeducciones')
+        axios.get(variables.API_URL + 'TiposDeducciones/GetTiposDeducciones', {
+            headers: AuthenticationHeader()
+        })
             .then(res => {
                 const data = res.data;
 
@@ -67,7 +74,9 @@ export class Transacciones extends React.Component {
     }
 
     getIngresos() {
-        axios.get(variables.API_URL + 'TiposIngresos/GetTiposIngresos')
+        axios.get(variables.API_URL + 'TiposIngresos/GetTiposIngresos', {
+            headers: AuthenticationHeader()
+        })
             .then(res => {
                 const data = res.data;
 
@@ -77,7 +86,9 @@ export class Transacciones extends React.Component {
 
     async getEmpleado(id) {
         if (!cache_empleados[id]) {
-            const res = await axios.get(variables.API_URL + 'Empleados/GetEmpleadoById/' + id);
+            const res = await axios.get(variables.API_URL + 'Empleados/GetEmpleadoById/' + id, {
+                headers: AuthenticationHeader()
+            });
             const data = res.data;
             this.setState({ current_empleado: data });
             cache_empleados[id] = data;
@@ -94,7 +105,9 @@ export class Transacciones extends React.Component {
 
     getDeduccion(id) {
         if (!cache_deducciones[id]) {
-            axios.get(variables.API_URL + 'TiposDeducciones/GetTipoDeduccionById/' + id)
+            axios.get(variables.API_URL + 'TiposDeducciones/GetTipoDeduccionById/' + id, {
+                headers: AuthenticationHeader()
+            })
                 .then(res => {
                     const data = res.data;
                     this.setState({ current_deduccion: data });
@@ -107,7 +120,9 @@ export class Transacciones extends React.Component {
 
     getIngreso(id) {
         if (!cache_ingresos[id]) {
-            axios.get(variables.API_URL + 'TiposIngresos/GetTipoIngresoById/' + id)
+            axios.get(variables.API_URL + 'TiposIngresos/GetTipoIngresoById/' + id, {
+                headers: AuthenticationHeader()
+            })
                 .then(res => {
                     const data = res.data;
                     this.setState({ current_ingreso: data });
@@ -200,6 +215,8 @@ export class Transacciones extends React.Component {
             fechaTransaccion: this.state.fechaTransaccion,
             montoTransaccion: this.state.montoTransaccion,
             estadoTransaccion: this.state.estadoTransaccion
+        }, {
+            headers: AuthenticationHeader()
         })
             .then(() => {
                 MySwal.fire({
@@ -228,6 +245,8 @@ export class Transacciones extends React.Component {
             fechaTransaccion: this.state.fechaTransaccion,
             montoTransaccion: this.state.montoTransaccion,
             estadoTransaccion: this.state.estadoTransaccion
+        }, {
+            headers: AuthenticationHeader()
         })
             .then(() => {
                 MySwal.fire({
@@ -261,7 +280,9 @@ export class Transacciones extends React.Component {
             confirmButtonText: 'Si, Eliminalo!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(variables.API_URL + 'Transacciones/DeleteTransaccion/' + id)
+                axios.delete(variables.API_URL + 'Transacciones/DeleteTransaccion/' + id, {
+                    headers: AuthenticationHeader()
+                })
                     .then(() => {
                         MySwal.fire({
                             title: 'Transaccion Eliminada!',

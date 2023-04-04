@@ -17,6 +17,8 @@ export function PrivateRoute() {
                 if (data == true) {
                     setIsAuth(true);
                 } else {
+                    sessionStorage.removeItem("token");
+                    sessionStorage.removeItem("username");
                     setIsAuth(false)
                 }
             })

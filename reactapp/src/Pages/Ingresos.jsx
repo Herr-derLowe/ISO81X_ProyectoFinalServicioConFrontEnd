@@ -4,6 +4,7 @@ import withReactContent from 'sweetalert2-react-content';
 import { variables } from '../Components/Variables';
 import axios from 'axios';
 import { DependeSalarioCheck } from '../Components/DeduccionesComponentes/DependeSalarioCheck';
+import AuthenticationHeader from "../context/AuthenticationHeader";
 
 export class Ingresos extends Component {
     constructor(props) {
@@ -23,7 +24,9 @@ export class Ingresos extends Component {
     refreshList() {
 
 
-        axios.get(variables.API_URL + 'tiposingresos/GetTiposIngresos')
+        axios.get(variables.API_URL + 'tiposingresos/GetTiposIngresos', {
+            headers: AuthenticationHeader()
+        })
             .then(res => {
                 const data = res.data;
                 this.setState({ ingresos: data });
@@ -96,6 +99,8 @@ export class Ingresos extends Component {
             nombreIngreso: nombreValidate,
             dependeSalarioI: this.state.dependeSalarioI,
             estadoIngreso: this.state.estadoIngreso
+        }, {
+            headers: AuthenticationHeader()
         })
             .then(() => {
                 MySwal.fire({
@@ -137,6 +142,8 @@ export class Ingresos extends Component {
             nombreIngreso: nombreValidate,
             dependeSalarioI: this.state.dependeSalarioI,
             estadoIngreso: this.state.estadoIngreso
+        }, {
+            headers: AuthenticationHeader()
         })
             .then(() => {
                 MySwal.fire({
@@ -170,7 +177,9 @@ export class Ingresos extends Component {
             confirmButtonText: 'Si, Eliminalo!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(variables.API_URL + 'tiposingresos/DeleteTipoIngreso/' + id)
+                axios.delete(variables.API_URL + 'tiposingresos/DeleteTipoIngreso/' + id, {
+                    headers: AuthenticationHeader()
+                })
                     .then(() => {
                         MySwal.fire({
                             title: 'Tipo de Ingreso Eliminad0!',
