@@ -58,7 +58,7 @@ export class Transacciones extends React.Component {
         })
             .then(res => {
                 const data = res.data;
-                this.setState({ empleados: data, empleado: data[0].id });
+                this.setState({ empleados: data/*, empleado: data[0].id*/ });
             })
     }
 
@@ -80,7 +80,7 @@ export class Transacciones extends React.Component {
             .then(res => {
                 const data = res.data;
 
-                this.setState({ ingresos: data, deduccion: data[0].id });
+                this.setState({ ingresos: data/*, deduccion: data[0].id*/ });
             })
     }
 
@@ -168,6 +168,7 @@ export class Transacciones extends React.Component {
             id: t.id,
             empleado: t.empleado_id,
             tipoTransaccion: t.tipoTransaccion,
+            deduccion: t.ingresoDeduccion_id,
             fechaTransaccion: new Date(t.fechaTransaccion),
             montoTransaccion: t.montoTransaccion,
             estadoTransaccion: t.estadoTransaccion
@@ -178,6 +179,7 @@ export class Transacciones extends React.Component {
     }
     changeEmpleado = (e) => {
         console.log("INIT ", e);
+        this.setState({empleado_id: e.target.value})
         this.setState({ empleado: e.target.value });
     }
     changeFechaTransaccion = (e) => {
@@ -313,8 +315,10 @@ export class Transacciones extends React.Component {
             modalTitle,
             id,
             empleado_id,
+            empleado,
             tipoTransaccion,
             ingresoDeduccion_id,
+            deduccion,
             fechaTransaccion,
             montoTransaccion,
             estadoTransaccion
@@ -329,6 +333,7 @@ export class Transacciones extends React.Component {
                         className="form-select"
                         id="inputDeduccion"
                         onChange={this.changeDeduccion}
+                        value={deduccion }
                     >
                         {deducciones.map(e =>
                             <option key={e.id} value={e.id}>{e.nombreDeduccion}</option>
@@ -344,6 +349,7 @@ export class Transacciones extends React.Component {
                         className="form-select"
                         id="inputDeduccion"
                         onChange={this.changeDeduccion}
+                        value={deduccion }
                     >
                         {ingresos.map(e =>
                             <option key={ e.id} value={e.id}>{e.nombreIngreso}</option>
@@ -377,11 +383,12 @@ export class Transacciones extends React.Component {
                                                     <thead>
                                                         <tr>
                                                             <th>Empleado</th>
-                                                            <th>Deduccion/Ingreso</th>
+                                                            <th>Detalle</th>
                                                             <th>Tipo</th>
                                                             <th>Fecha</th>
                                                             <th>Monto</th>
                                                             <th>Estado</th>
+                                                            <th>Id Asiento</th>
                                                             <th>Acciones</th>
                                                         </tr>
                                                     </thead>
@@ -396,6 +403,8 @@ export class Transacciones extends React.Component {
                                                                 <td>{new Date(t.fechaTransaccion).toISOString().split('T')[0]}</td>
                                                                 <td>{t.montoTransaccion}</td>
                                                                 <td>{t.estadoTransaccion}</td>
+                                                                <td>{t.idAsiento ? (
+                                                                    <>{ t.idAsiento}</>) : (<>Null</>)}</td>
                                                                 <td>
                                                                     <button type="button"
                                                                         className="btn btn-primary mr-1"
@@ -442,6 +451,7 @@ export class Transacciones extends React.Component {
                                                                                 className="form-select"
                                                                                 id="inputEmpleado"
                                                                                 onChange={this.changeEmpleado}
+                                                                                value={empleado }
                                                                             >
                                                                                 {empleados.map(e =>
                                                                                     <option key={e.id} value={e.id}>{e.nombreEmpleado}</option>

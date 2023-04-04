@@ -51,6 +51,10 @@
     color:red;
 }
 
+.spanWrong strong{
+    color:red;
+}
+
 .input input{
     width: 100%;
     height: 3.8rem;

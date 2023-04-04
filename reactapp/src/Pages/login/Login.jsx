@@ -12,6 +12,7 @@ export function Login() {
         username: null,
         password: null,
     });
+    const [isCorrect, setIsCorrect] = useState(true);
 
     const navigate = useNavigate();
 
@@ -37,6 +38,9 @@ export function Login() {
                 sessionStorage.setItem("token", x.data.token);
                 sessionStorage.setItem("username", x.data.username)
                 navigate("/home");
+            })
+            .catch(err => {
+                setIsCorrect(false);
             });
     };
 
@@ -56,7 +60,7 @@ export function Login() {
 
                     <div className={style.input}>
                         <span>
-                            Contraseña <strong>*</strong>
+                            Contrase&ntilde;a <strong>*</strong>
                         </span>
 
                         <input
@@ -66,7 +70,11 @@ export function Login() {
                             onChange={getData}
                         />
                     </div>
-
+                    {isCorrect ? (<></>) : (
+                        <span className={style.spanWrong}>
+                            <strong>Contrase&ntilde;a o Usuario incorrecto</strong>
+                        </span>
+                    )}
                     <div className={style.send}>
                         <button>Login</button>
                     </div>
