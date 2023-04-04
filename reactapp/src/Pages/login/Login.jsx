@@ -35,6 +35,7 @@ export function Login() {
                 console.log(x.data);
                 /* localStorage.setItem("token", x.data.token); */
                 sessionStorage.setItem("token", x.data.token);
+                sessionStorage.setItem("username", x.data.username)
                 navigate("/home");
             });
     };

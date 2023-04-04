@@ -1,7 +1,9 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Header() {
+    const navigate = useNavigate();
+
     return (
         <header>
             <nav className="navbar navbar-expand-xl navbar-dark fixed-top bg-dark">
@@ -34,6 +36,23 @@ function Header() {
                             { /* <NavLink className="nav-link" aria-current="page" to="/home">Home</NavLink>*/}
                             { /*</li>*/}
                         </ul>
+                        {sessionStorage.getItem("username") ? (
+                            <div className="d-flex">
+                                <p className="navbar-text">User: {sessionStorage.getItem("username")}</p>
+                                &nbsp;&nbsp;&nbsp;
+                                <button className="btn btn-outline-danger" onClick={
+                                    () => {
+                                        sessionStorage.removeItem("token");
+                                        sessionStorage.removeItem("username");
+                                        navigate("/");
+                                    }
+                                }>Logout</button>
+                            </div>
+                        ) : (
+                            <div className="d-flex">
+                                <NavLink className="btn btn-outline-primary" to="/">Login</NavLink>
+                            </div>
+                        )}
                     </div>
                 </div>
             </nav>
