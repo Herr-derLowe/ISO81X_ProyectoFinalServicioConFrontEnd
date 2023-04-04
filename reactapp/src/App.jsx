@@ -9,6 +9,8 @@ import { DashboardEmpleados } from "./Pages/EmpleadosModule/DashboardEmpleados";
 import { Ingresos } from "./Pages/Ingresos";
 import { Transacciones } from "./Pages/Transacciones";
 import { Context } from "./context/Context";
+import { Login } from "./Pages/login/Login";
+import { PrivateRoute } from "./Components/PrivateRoute/PrivateRoute";
 
 export default class App extends Component {
   static displayName = App.name;
@@ -21,16 +23,30 @@ export default class App extends Component {
             <BrowserRouter>
               <Header />
               <Routes>
-                <Route path="/" element={<Home />}></Route>
-                <Route path="/home" element={<Home />}></Route>
-                <Route
-                  path="/gestiondeducciones"
-                  element={<GestionDeducciones />}
-                ></Route>
+                <Route path="/" element={<Login />}></Route>
 
-                <Route path="/empleados/*" element={<DashboardEmpleados />} />
-                <Route path="/ingresos" element={<Ingresos />} />
-                <Route path="/transacciones" element={<Transacciones />} />
+                <Route element={<PrivateRoute />}>
+                  <Route path="/home" element={<Home />} />
+                </Route>
+
+                <Route element={<PrivateRoute />}>
+                  <Route
+                    path="/gestiondeducciones"
+                    element={<GestionDeducciones />}
+                  />
+                </Route>
+
+                <Route element={<PrivateRoute />}>
+                  <Route path="/empleados/*" element={<DashboardEmpleados />} />
+                </Route>
+
+                <Route element={<PrivateRoute />}>
+                  <Route path="/ingresos" element={<Ingresos />} />
+                </Route>
+
+                <Route element={<PrivateRoute />}>
+                  <Route path="/transacciones" element={<Transacciones />} />
+                </Route>
               </Routes>
             </BrowserRouter>
           </Context>
