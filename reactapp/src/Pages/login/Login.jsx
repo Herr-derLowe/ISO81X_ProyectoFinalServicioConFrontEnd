@@ -28,7 +28,7 @@ export function Login() {
         e.preventDefault();
 
         await axios
-            .post("api/Authentication/Login", {
+            .post(apiUrl+"Authentication/Login", {
                 username: dataLogin.username,
                 password: dataLogin.password,
             })

@@ -16,37 +16,28 @@ export class Asientos extends Component {
             empleados: [],
             deducciones: [],
             ingresos: [],
-            DeduccionClaveFilter: "",
-            DeduccionNombreFilter: "",
+            TransaccionDesdeFilter: "",
+            TransaccionHastaFilter: "",
             DeduccionDependeSalarioFilter: "",
             EstadoDeduccionFilter: "",
-            deduccionesWithoutFilter: []
+            transaccionesWithoutFilter: []
         }
     }
     FilterFn() {
-        var DeduccionClaveFilter = this.state.DeduccionClaveFilter;
-        var DeduccionNombreFilter = this.state.DeduccionNombreFilter;
+        var TransaccionDesdeFilter = this.state.TransaccionDesdeFilter;
+        var TransaccionHastaFilter = this.state.TransaccionHastaFilter;
         //var DeduccionDependeSalarioFilter = this.state.DeduccionDependeSalarioFilter;
-        var EstadoDeduccionFilter = this.state.EstadoDeduccionFilter;
+        console.log("filtering")
 
-
-        var filteredData = this.state.deduccionesWithoutFilter.filter(
+        var filteredData = this.state.transaccionesWithoutFilter.filter(
             function (el) {
-                return el.nombreDeduccion.toString().toLowerCase().includes(
-                    DeduccionNombreFilter.toString().trim().toLowerCase()
-                ) &&
-                    el.claveDeduccion.toString().toLowerCase().includes(
-                        DeduccionClaveFilter.toString().trim().toLowerCase()
-                    ) &&
-                    el.estadoDeduccion.toString().toUpperCase().includes(
-                        EstadoDeduccionFilter.toString().trim().toUpperCase()
-                    )
+                return el.fechaTransaccion >= TransaccionDesdeFilter && el.fechaTransaccion <= TransaccionHastaFilter;
             }
         );
-        this.setState({ deducciones: filteredData });
+        this.setState({ transacciones: filteredData });
     }
     sortResult(prop, asc) {
-        var sortedData = this.state.deduccionesWithoutFilter.sort(function (a, b) {
+        var sortedData = this.state.transaccionesWithoutFilter.sort(function (a, b) {
             if (asc) {
                 return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
             }
@@ -57,12 +48,12 @@ export class Asientos extends Component {
         this.setState({ deducciones: sortedData });
     }
 
-    changeDeduccionClaveFilter = (e) => {
-        this.state.DeduccionClaveFilter = e.target.value;
+    changeFechaDesdeFilter = (e) => {
+        this.state.TransaccionDesdeFilter = e.target.value;
         this.FilterFn();
     }
-    changeDeduccionNombreFilter = (e) => {
-        this.state.DeduccionNombreFilter = e.target.value;
+    changeTransaccionHastaFilter = (e) => {
+        this.state.TransaccionHastaFilter = e.target.value;
         this.FilterFn();
     }
     changeDeduccionDependeSalarioFilter = (e) => {
@@ -83,7 +74,7 @@ export class Asientos extends Component {
         })
             .then(res => {
                 const data = res.data;
-                this.setState({ transacciones: data, deduccionesWithoutFilter: data });
+                this.setState({ transacciones: data, transaccionesWithoutFilter: data });
             })
 
     }
@@ -233,7 +224,7 @@ export class Asientos extends Component {
                                                 <label>Fecha Desde</label>
                                                 <input className="form-control"
                                                     type="date"
-                                                    onChange={this.changeDeduccionClaveFilter}
+                                                    onChange={this.changeFechaDesdeFilter}
                                                     placeholder="Fecha Desde"
                                                 />
                                                 <br />
@@ -256,7 +247,7 @@ export class Asientos extends Component {
                                                 <label>Fecha Hasta</label>
                                                 <input className="form-control"
                                                     type="date"
-                                                    onChange={this.changeDeduccionNombreFilter}
+                                                    onChange={this.changeTransaccionHastaFilter}
                                                     placeholder="Fecha Hasta"
                                                 />
                                                 <br />
