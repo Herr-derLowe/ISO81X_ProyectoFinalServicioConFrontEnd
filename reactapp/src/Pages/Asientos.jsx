@@ -5,7 +5,11 @@ import { variables } from '../Components/Variables';
 import axios from 'axios';
 import { DependeSalarioCheck } from '../Components/DeduccionesComponentes/DependeSalarioCheck';
 import { EstadoDeduccionBadge } from '../Components/DeduccionesComponentes/estadoDeduccionBadge';
-import AuthenticationHeader from '../context/AuthenticationHeader'
+import { Calendar } from 'primereact/calendar';
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import AuthenticationHeader from '../context/AuthenticationHeader';
 
 export class Asientos extends Component {
     constructor(props) {
@@ -20,55 +24,50 @@ export class Asientos extends Component {
             TransaccionHastaFilter: "",
             DeduccionDependeSalarioFilter: "",
             EstadoDeduccionFilter: "",
-            transaccionesWithoutFilter: []
+            transaccionesWithoutFilter: [],
+            isFiltered: false
         }
     }
     FilterFn() {
-        var TransaccionDesdeFilter = this.state.TransaccionDesdeFilter;
-        var TransaccionHastaFilter = this.state.TransaccionHastaFilter;
+        this.setState({ isFiltered: true });
+        var TransaccionDesdeFilter = this.state.TransaccionDesdeFilter.toISOString();
+        var TransaccionHastaFilter = this.state.TransaccionHastaFilter.toISOString();
         //var DeduccionDependeSalarioFilter = this.state.DeduccionDependeSalarioFilter;
-        console.log("filtering")
+        //console.log("filtering")
+        //console.log(TransaccionDesdeFilter)
+        //console.log(this.state.transaccionesWithoutFilter);
 
         var filteredData = this.state.transaccionesWithoutFilter.filter(
-            function (el) {
-                return el.fechaTransaccion >= TransaccionDesdeFilter && el.fechaTransaccion <= TransaccionHastaFilter;
+            (item) => {
+                return item.fechaTransaccion >= TransaccionDesdeFilter
+                    && item.fechaTransaccion <= TransaccionHastaFilter;
             }
         );
+        console.log(filteredData);
         this.setState({ transacciones: filteredData });
     }
-    sortResult(prop, asc) {
-        var sortedData = this.state.transaccionesWithoutFilter.sort(function (a, b) {
-            if (asc) {
-                return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
-            }
-            else {
-                return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
-            }
-        });
-        this.setState({ deducciones: sortedData });
-    }
 
+    logChange = (e)=> {
+        console.log(e.target.value);
+    }
+    clearFilterSingle() {
+        this.setState({ isFiltered: false })
+        this.refreshList();
+    }
     changeFechaDesdeFilter = (e) => {
         this.state.TransaccionDesdeFilter = e.target.value;
-        this.FilterFn();
+        if (this.state.TransaccionDesdeFilter && this.state.TransaccionHastaFilter) {
+            this.FilterFn();
+        }
     }
     changeTransaccionHastaFilter = (e) => {
         this.state.TransaccionHastaFilter = e.target.value;
-        this.FilterFn();
-    }
-    changeDeduccionDependeSalarioFilter = (e) => {
-        this.state.DeduccionDependeSalarioFilter = e.target.value.toString();
-        this.FilterFn();
-    }
-    changeEstadoDeduccionFilter = (e) => {
-        this.state.EstadoDeduccionFilter = e.target.value;
-        this.FilterFn();
+        if (this.state.TransaccionDesdeFilter && this.state.TransaccionHastaFilter) {
+            this.FilterFn();
+        }
     }
 
     refreshList() {
-        this.getEmpleados();
-        this.getDeducciones();
-        this.getIngresos();
         axios.get(variables.API_URL + 'Transacciones/GetTransaccionesAsientoNull', {
             headers: AuthenticationHeader()
         })
@@ -79,70 +78,33 @@ export class Asientos extends Component {
 
     }
 
-    getEmpleados() {
-        axios.get(variables.API_URL + 'Empleados/GetEmpleados', {
-            headers: AuthenticationHeader()
-        })
-            .then(res => {
-                const data = res.data;
-                this.setState({ empleados: data/*, empleado: data[0].id*/ });
-            })
-    }
-
-    getDeducciones() {
-        axios.get(variables.API_URL + 'TiposDeducciones/GetTiposDeducciones', {
-            headers: AuthenticationHeader()
-        })
-            .then(res => {
-                const data = res.data;
-
-                this.setState({ deducciones: data });
-            })
-    }
-
-    getIngresos() {
-        axios.get(variables.API_URL + 'TiposIngresos/GetTiposIngresos', {
-            headers: AuthenticationHeader()
-        })
-            .then(res => {
-                const data = res.data;
-
-                this.setState({ ingresos: data/*, deduccion: data[0].id*/ });
-            })
-    }
-
     componentDidMount() {
         this.refreshList();
     }
 
-    changeClaveDeduccion = (e) => {
-        this.setState({ claveDeduccion: e.target.value });
-    }
-    changeNombreDeduccion = (e) => {
-        this.setState({ nombreDeduccion: e.target.value });
-    }
-    changeDependeSalarioD = (e) => {
-        this.setState({ dependeSalarioD: e.target.checked });
-    }
-    changeEstadoDeduccion = (e) => {
-        this.setState({ estadoDeduccion: e.target.value });
-    }
-
-    addClick() {
+    contabilizarClick() {
         console.log("contabilizando...");
+        let totalMonto = 0;
+
+        this.state.transacciones.forEach((txn) => {
+            totalMonto += txn.montoTransaccion;
+        })
+        //Prueba pre-integracion
+        console.log({
+            "id_aux": 2,
+            "nombre_aux": "Nomina",
+            "cuenta": 70,
+            "origen": "CR",
+            "monto": totalMonto
+        });
     }
 
-    getDeducIng(t) {
-        if (t.tipoTransaccion == "INGRESO") {
-            return this.state.ingresos.find(e => e.id == t.ingresoDeduccion_id)?.nombreIngreso
-
-        } else {
-            return this.state.deducciones.find(e => e.id == t.ingresoDeduccion_id)?.nombreDeduccion
-        }
-    }
     render() {
         const {
             transacciones,
+            TransaccionDesdeFilter,
+            TransaccionHastaFilter,
+            isFiltered,
             modalTitle,
             id,
             claveDeduccion,
@@ -159,7 +121,7 @@ export class Asientos extends Component {
                         <div className="col">
                             <div className="h1 pb-2 mb-4 text-dark border-bottom border-secondary">
                                 <br />
-                                Gesti&oacute;n de Asientos Contables
+                                M&oacute;dulo de Contabilizaci&oacute;n
                             </div>
 
                             <div className="row flex-lg-nowrap">
@@ -167,7 +129,32 @@ export class Asientos extends Component {
                                     <div className="e-panel card">
                                         <div className="card-body">
                                             <div className="card-title">
-                                                <h4 className="mr-2">Detalles Asientos Contables</h4>
+                                                <h4 className="mr-2">Detalles Transacciones a Contabilizar</h4>
+                                            </div>
+                                            <br/>
+                                            <div className="d-flex justify-content-between">
+                                                <div className="fs-5 text">
+                                                    Fecha desde: <Calendar
+                                                        inputId="fechaDesde"
+                                                        value={TransaccionDesdeFilter}
+                                                        onChange={this.changeFechaDesdeFilter}
+                                                        onClearButtonClick={() => this.clearFilterSingle()}
+                                                        touchUI
+                                                        showIcon
+                                                        showButtonBar
+                                                        dateFormat="yy-mm-dd" />
+                                                </div>
+                                                <div className="fs-5 text">
+                                                    Fecha hasta: <Calendar
+                                                        inputId="fechaHasta"
+                                                        value={TransaccionHastaFilter}
+                                                        onChange={this.changeTransaccionHastaFilter}
+                                                        onClearButtonClick={() => this.clearFilterSingle()}
+                                                        touchUI
+                                                        showIcon
+                                                        showButtonBar
+                                                        dateFormat="yy-mm-dd" />
+                                                </div>
                                             </div>
                                             <div className="e-table">
                                                 <div className="table-responsive table-lg mt-3">
@@ -185,84 +172,24 @@ export class Asientos extends Component {
                                                             {transacciones.map(t =>
                                                                 <tr key={t.id}>
                                                                     <td>{t.id}</td>
-                                                                    <td>{this.getDeducIng(t)}</td>
+                                                                    <td>{t.tipoTransaccion} NOMINA</td>
                                                                     <td>{new Date(t.fechaTransaccion).toISOString().split('T')[0]}</td>
                                                                     <td>{t.montoTransaccion} </td>
                                                                     <td>{t.idAsiento ? (
                                                                         <>{t.idAsiento}</>) : (<>Null</>)}</td>
                                                                 </tr>
                                                             )}
-                                                            <tr>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td>
-                                                                    <button type="button"
-                                                                        className="btn btn-success btn-block"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModal"
-                                                                        onClick={() => this.addClick()}>
-                                                                        Contabilizar
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
                                                         </tbody>
                                                     </table>
 
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-lg-3 mb-3">
-                                    <div className="card">
-                                        <div className="card-body">
-
-                                            <hr className="my-3" />
-                                            <div className="text-center">
-                                                <label>Fecha Desde</label>
-                                                <input className="form-control"
-                                                    type="date"
-                                                    onChange={this.changeFechaDesdeFilter}
-                                                    placeholder="Fecha Desde"
-                                                />
-                                                <br />
-                                                <button type="button" className="btn btn-light"
-                                                    onClick={() => this.sortResult('claveDeduccion', true)}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
-                                                        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
-                                                    </svg>
-                                                </button>
-
-                                                <button type="button" className="btn btn-light"
-                                                    onClick={() => this.sortResult('claveDeduccion', false)}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
-                                                        <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                            <hr className="my-3" />
-                                            <div className="text-center">
-                                                <label>Fecha Hasta</label>
-                                                <input className="form-control"
-                                                    type="date"
-                                                    onChange={this.changeTransaccionHastaFilter}
-                                                    placeholder="Fecha Hasta"
-                                                />
-                                                <br />
-                                                <button type="button" className="btn btn-light"
-                                                    onClick={() => this.sortResult('nombreDeduccion', true)}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
-                                                        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
-                                                    </svg>
-                                                </button>
-
-                                                <button type="button" className="btn btn-light"
-                                                    onClick={() => this.sortResult('nombreDeduccion', false)}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
-                                                        <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
-                                                    </svg>
+                                            <div className="float-end">
+                                                <button type="button"
+                                                    disabled={isFiltered ? false : true}
+                                                    className="btn btn-success btn-block"
+                                                    onClick={() => this.contabilizarClick()}>
+                                                    Contabilizar
                                                 </button>
                                             </div>
                                         </div>

@@ -30,11 +30,13 @@ namespace webapi.Controllers
 
         [HttpGet]
         [Route("GetUsuarios")]
+        [Authorize(Roles = "Administrador,Omnissiah")]
         public async Task<List<User>> Get() =>
             await _usuariosService.GetAsync();
 
         [HttpGet]
         [Route("GetUsuarioById/{id:length(24)}")]
+        [Authorize(Roles = "Administrador,Omnissiah")]
         public async Task<ActionResult<User>> GetUsuarioById(string id)
         {
             var usuario = await _usuariosService.GetAsync(id);
@@ -49,6 +51,7 @@ namespace webapi.Controllers
 
         [HttpPost]
         [Route("RegisterUsuario")]
+        [Authorize(Roles = "Omnissiah")]
         public async Task<ActionResult<User>> Register(UserDTO registerData)
         {
             CreatePasswordHash(registerData.password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -90,6 +93,7 @@ namespace webapi.Controllers
 
         [HttpGet]
         [Route("verifyjwt/{JWtoken}")]
+        [AllowAnonymous]
         public bool VerifyJWT(string JWtoken)
         {
             var validationParameters = new TokenValidationParameters()
