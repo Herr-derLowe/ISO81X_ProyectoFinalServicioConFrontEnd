@@ -45,6 +45,9 @@ export class Asientos extends Component {
         );
         console.log(filteredData);
         this.setState({ transacciones: filteredData });
+        if (this.state.transacciones.length === 0) {
+            this.setState({ isFiltered: false });
+        }
     }
 
     logChange = (e)=> {

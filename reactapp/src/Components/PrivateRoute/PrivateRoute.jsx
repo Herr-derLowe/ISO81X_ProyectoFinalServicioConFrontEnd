@@ -11,7 +11,7 @@ export function PrivateRoute() {
 
     const sendVerify = async () => {
         await axios
-            .get(apiUrl + "Authentication/verifyjwt/" + token)
+            .get("api/Authentication/verifyjwt/" + token)
             .then(res => {
                 const data = res.data;
                 if (data == true) {

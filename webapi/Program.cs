@@ -101,6 +101,11 @@ internal class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+        else
+        {
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+        }
 
         app.UseHttpsRedirection();
 
