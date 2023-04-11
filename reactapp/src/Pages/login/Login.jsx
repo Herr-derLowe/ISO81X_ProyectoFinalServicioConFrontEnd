@@ -33,7 +33,7 @@ export function Login() {
                 password: dataLogin.password,
             })
             .then((x) => {
-                console.log(x.data);
+                //console.log(x.data);
                 /* localStorage.setItem("token", x.data.token); */
                 sessionStorage.setItem("token", x.data.token);
                 sessionStorage.setItem("username", x.data.username)

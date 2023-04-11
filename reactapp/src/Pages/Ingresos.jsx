@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
-import { variables } from '../Components/Variables';
 import axios from 'axios';
 import { DependeSalarioCheck } from '../Components/DeduccionesComponentes/DependeSalarioCheck';
 import AuthenticationHeader from "../context/AuthenticationHeader";
@@ -24,7 +23,7 @@ export class Ingresos extends Component {
     refreshList() {
 
 
-        axios.get(variables.API_URL + 'tiposingresos/GetTiposIngresos', {
+        axios.get('api/tiposingresos/GetTiposIngresos', {
             headers: AuthenticationHeader()
         })
             .then(res => {
@@ -94,7 +93,7 @@ export class Ingresos extends Component {
             nombreValidate = this.state.nombreIngreso;
         }
 
-        axios.post(variables.API_URL + 'tiposingresos/PostAddTipoIngreso', {
+        axios.post('api/tiposingresos/PostAddTipoIngreso', {
             claveIngreso: claveValidate,
             nombreIngreso: nombreValidate,
             dependeSalarioI: this.state.dependeSalarioI,
@@ -137,7 +136,7 @@ export class Ingresos extends Component {
         }
 
 
-        axios.put(variables.API_URL + 'tiposingresos/UpdateTipoIngreso/' + this.state.id, {
+        axios.put('api/tiposingresos/UpdateTipoIngreso/' + this.state.id, {
             claveIngreso: claveValidate,
             nombreIngreso: nombreValidate,
             dependeSalarioI: this.state.dependeSalarioI,
@@ -177,7 +176,7 @@ export class Ingresos extends Component {
             confirmButtonText: 'Si, Eliminalo!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(variables.API_URL + 'tiposingresos/DeleteTipoIngreso/' + id, {
+                axios.delete('api/tiposingresos/DeleteTipoIngreso/' + id, {
                     headers: AuthenticationHeader()
                 })
                     .then(() => {

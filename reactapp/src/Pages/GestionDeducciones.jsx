@@ -89,7 +89,7 @@ export class GestionDeducciones extends Component {
         //    .then(data => {
         //        this.setState({ deducciones: data });
         //    });
-        axios.get(variables.API_URL + 'tiposdeducciones/GetTiposDeducciones', {
+        axios.get('api/tiposdeducciones/GetTiposDeducciones', {
             headers: AuthenticationHeader()
         })
             .then(res => {
@@ -155,7 +155,7 @@ export class GestionDeducciones extends Component {
         } else {
             nombreValidate = this.state.nombreDeduccion;
         }
-        axios.post(variables.API_URL + 'tiposdeducciones/PostAddTipoDeduccion', {
+        axios.post('api/tiposdeducciones/PostAddTipoDeduccion', {
             claveDeduccion: claveValidate,
             nombreDeduccion: nombreValidate,
             dependeSalarioD: this.state.dependeSalarioD,
@@ -211,7 +211,7 @@ export class GestionDeducciones extends Component {
             nombreValidate = this.state.nombreDeduccion;
         }
 
-        axios.put(variables.API_URL + 'tiposdeducciones/UpdateTipoDeduccion/' + this.state.id, {
+        axios.put('api/tiposdeducciones/UpdateTipoDeduccion/' + this.state.id, {
             claveDeduccion: claveValidate,
             nombreDeduccion: nombreValidate,
             dependeSalarioD: this.state.dependeSalarioD,
@@ -264,7 +264,7 @@ export class GestionDeducciones extends Component {
             confirmButtonText: 'Si, Eliminalo!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(variables.API_URL + 'tiposdeducciones/DeleteTipoDeduccion/' + id, {
+                axios.delete('api/tiposdeducciones/DeleteTipoDeduccion/' + id, {
                     headers: AuthenticationHeader()
                 })
                     .then(() => {

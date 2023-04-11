@@ -1,7 +1,6 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { apiUrl } from "../../context/apiUrl";
 
 export function PrivateRoute() {
     const [isAuth, setIsAuth] = useState(null);

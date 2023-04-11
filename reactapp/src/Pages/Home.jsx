@@ -5,6 +5,7 @@ import employeeimg from "../imgs/flatdesign-employees.jpg";
 import moneydownimg from "../imgs/moneydown.jpg";
 import tipos_de_ingresosimg from "../imgs/tipos_de_ingresos.jpeg";
 import moneytransact from "../imgs/moneytran01.jpg";
+import accounting01 from "../imgs/Accounting01.jpg";
 
 
 export class Home extends Component {
@@ -117,6 +118,24 @@ export class Home extends Component {
                                     >
                                         Acceder a Transacciones
                                     </NavLink>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="card">
+                            <img src={accounting01} className="card-img-top" alt="Contabilidad dinero"></img>
+                            <div className="card-body">
+                                <h5 className="card-title">Contabilizaci&oacute;n</h5>
+                                <p className="card-text">
+                                    Modulo de contabilizaci&oacute;n de transacciones registradas.
+                                </p>
+                                <br />
+                                <NavLink
+                                    className="btn btn-warning fw-bold"
+                                    to="/asientos"
+                                >
+                                    Acceder a Contabilizaci&oacute;n
+                                </NavLink>
                             </div>
                         </div>
                     </div>

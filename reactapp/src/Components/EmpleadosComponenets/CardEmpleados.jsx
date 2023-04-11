@@ -3,6 +3,7 @@ import { useState } from "react";
 import style from "./CardEmpleados.module.css";
 import closeImg from "../../imgs/close.png";
 import { useClient } from "../../context/Context";
+import { apiUrl } from "../../context/apiUrl";
 import AuthenticationHeader from "../../context/AuthenticationHeader";
 
 export function CardEmpleados({
@@ -42,7 +43,7 @@ export function CardEmpleados({
         } else {
             try {
                 await axios
-                    .put("https://localhost:7069/api/Empleados/UpdateEmpleado/" + id, {
+                    .put('https://localhost:7069' + "/api/Empleados/UpdateEmpleado/" + id, {
                         cedulaEmpleado:
                             updateVariable.cedula != "" ? updateVariable.cedula : cedula,
                         nombreEmpleado:
@@ -70,7 +71,7 @@ export function CardEmpleados({
     const deleteEmpleado = async () => {
         try {
             await axios
-                .delete("https://localhost:7069/api/Empleados/DeleteEmpleado/" + id, {
+                .delete('https://localhost:7069' + "/api/Empleados/DeleteEmpleado/" + id, {
                     headers: AuthenticationHeader()
                 })
                 .then(() => {

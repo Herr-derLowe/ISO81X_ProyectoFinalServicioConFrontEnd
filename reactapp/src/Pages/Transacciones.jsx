@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
-import { variables } from '../Components/Variables';
 import axios from 'axios';
 import DatePicker from 'react-date-picker';
 import 'react-date-picker/dist/DatePicker.css';
@@ -42,7 +41,7 @@ export class Transacciones extends React.Component {
         this.getEmpleados();
         this.getDeducciones();
         this.getIngresos();
-        axios.get(variables.API_URL + 'Transacciones/GetTransacciones', {
+        axios.get('api/Transacciones/GetTransacciones', {
             headers: AuthenticationHeader()
         })
             .then(res => {
@@ -53,7 +52,7 @@ export class Transacciones extends React.Component {
     }
 
     getEmpleados() {
-        axios.get(variables.API_URL + 'Empleados/GetEmpleados', {
+        axios.get('api/Empleados/GetEmpleados', {
             headers: AuthenticationHeader()
         })
             .then(res => {
@@ -63,7 +62,7 @@ export class Transacciones extends React.Component {
     }
 
     getDeducciones() {
-        axios.get(variables.API_URL + 'TiposDeducciones/GetTiposDeducciones', {
+        axios.get('api/TiposDeducciones/GetTiposDeducciones', {
             headers: AuthenticationHeader()
         })
             .then(res => {
@@ -74,7 +73,7 @@ export class Transacciones extends React.Component {
     }
 
     getIngresos() {
-        axios.get(variables.API_URL + 'TiposIngresos/GetTiposIngresos', {
+        axios.get('api/TiposIngresos/GetTiposIngresos', {
             headers: AuthenticationHeader()
         })
             .then(res => {
@@ -86,7 +85,7 @@ export class Transacciones extends React.Component {
 
     async getEmpleado(id) {
         if (!cache_empleados[id]) {
-            const res = await axios.get(variables.API_URL + 'Empleados/GetEmpleadoById/' + id, {
+            const res = await axios.get('api/Empleados/GetEmpleadoById/' + id, {
                 headers: AuthenticationHeader()
             });
             const data = res.data;
@@ -105,7 +104,7 @@ export class Transacciones extends React.Component {
 
     getDeduccion(id) {
         if (!cache_deducciones[id]) {
-            axios.get(variables.API_URL + 'TiposDeducciones/GetTipoDeduccionById/' + id, {
+            axios.get('api/TiposDeducciones/GetTipoDeduccionById/' + id, {
                 headers: AuthenticationHeader()
             })
                 .then(res => {
@@ -120,7 +119,7 @@ export class Transacciones extends React.Component {
 
     getIngreso(id) {
         if (!cache_ingresos[id]) {
-            axios.get(variables.API_URL + 'TiposIngresos/GetTipoIngresoById/' + id, {
+            axios.get('api/TiposIngresos/GetTipoIngresoById/' + id, {
                 headers: AuthenticationHeader()
             })
                 .then(res => {
@@ -210,7 +209,7 @@ export class Transacciones extends React.Component {
 
 
 
-        axios.post(variables.API_URL + 'Transacciones/PostAddTransaccion', {
+        axios.post('api/Transacciones/PostAddTransaccion', {
             empleado_id: this.state.empleado,
             tipoTransaccion: this.state.tipoTransaccion,
             ingresoDeduccion_id: this.state.deduccion,
@@ -240,7 +239,7 @@ export class Transacciones extends React.Component {
         const MySwal = withReactContent(Swal)
 
 
-        axios.put(variables.API_URL + 'Transacciones/UpdateTransaccion/' + this.state.id, {
+        axios.put('api/Transacciones/UpdateTransaccion/' + this.state.id, {
             empleado_id: this.state.empleado,
             tipoTransaccion: this.state.tipoTransaccion,
             ingresoDeduccion_id: this.state.deduccion,
@@ -282,7 +281,7 @@ export class Transacciones extends React.Component {
             confirmButtonText: 'Si, Eliminalo!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(variables.API_URL + 'Transacciones/DeleteTransaccion/' + id, {
+                axios.delete('api/Transacciones/DeleteTransaccion/' + id, {
                     headers: AuthenticationHeader()
                 })
                     .then(() => {

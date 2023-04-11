@@ -70,7 +70,7 @@ export function CrearEmpleado() {
       if (cedulaOK) {
           try {
               await axios
-                  .post("https://localhost:7069/api/Empleados/PostAddEmpleado/", {
+                  .post('https://localhost:7069' + "/api/Empleados/PostAddEmpleado/", {
                       cedulaEmpleado: updateVariable.cedula,
                       nombreEmpleado: updateVariable.name,
                       departamento: updateVariable.department,

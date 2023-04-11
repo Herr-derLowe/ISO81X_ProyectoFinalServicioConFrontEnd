@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { variables } from '../Components/Variables';
 import axios from 'axios';
-import { DependeSalarioCheck } from '../Components/DeduccionesComponentes/DependeSalarioCheck';
-import { EstadoDeduccionBadge } from '../Components/DeduccionesComponentes/estadoDeduccionBadge';
 import { Calendar } from 'primereact/calendar';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -43,16 +40,17 @@ export class Asientos extends Component {
                     && item.fechaTransaccion <= TransaccionHastaFilter;
             }
         );
-        console.log(filteredData);
+        //console.log(filteredData);
         this.setState({ transacciones: filteredData });
-        if (this.state.transacciones.length === 0) {
+
+        if (filteredData.length == 0) {
             this.setState({ isFiltered: false });
         }
     }
 
-    logChange = (e)=> {
-        console.log(e.target.value);
-    }
+    //logChange = (e)=> {
+    //    console.log(e.target.value);
+    //}
     clearFilterSingle() {
         this.setState({ isFiltered: false })
         this.refreshList();
@@ -71,7 +69,7 @@ export class Asientos extends Component {
     }
 
     refreshList() {
-        axios.get(variables.API_URL + 'Transacciones/GetTransaccionesAsientoNull', {
+        axios.get('api/Transacciones/GetTransaccionesAsientoNull', {
             headers: AuthenticationHeader()
         })
             .then(res => {
@@ -87,6 +85,7 @@ export class Asientos extends Component {
 
     contabilizarClick() {
         console.log("contabilizando...");
+        const MySwal = withReactContent(Swal)
         let totalMonto = 0;
 
         this.state.transacciones.forEach((txn) => {
@@ -100,6 +99,18 @@ export class Asientos extends Component {
             "origen": "CR",
             "monto": totalMonto
         });
+        
+        MySwal.fire({
+            title: <strong>Transacciones Contabilizadas!</strong>,
+            icon: 'success',
+            timer: 2500
+        });
+        this.setState({
+            TransaccionDesdeFilter: "",
+            TransaccionHastaFilter: "",
+            isFiltered: false
+        });
+        this.refreshList();
     }
 
     render() {

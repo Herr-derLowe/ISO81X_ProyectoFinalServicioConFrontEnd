@@ -1,5 +1,6 @@
 import { useMemo, createContext, useContext, useState } from "react";
 import axios from "axios";
+import { apiUrl } from "./apiUrl";
 import AuthenticationHeader from "./AuthenticationHeader";
 
 const userContext = createContext();
@@ -13,7 +14,7 @@ export function Context(props) {
     const getEmpleados = async () => {
         try {
           await axios
-              .get("https://localhost:7069/api/Empleados/GetEmpleados", {
+              .get('https://localhost:7069' + "/api/Empleados/GetEmpleados", {
                   headers: AuthenticationHeader()
               })
             .then((data) => {
