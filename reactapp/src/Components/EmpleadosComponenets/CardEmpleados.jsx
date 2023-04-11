@@ -42,42 +42,82 @@ export function CardEmpleados({
             setOpenEdit(false);
         } else {
             try {
-                await axios
-                    .put('https://localhost:7069' + "/api/Empleados/UpdateEmpleado/" + id, {
-                        cedulaEmpleado:
-                            updateVariable.cedula != "" ? updateVariable.cedula : cedula,
-                        nombreEmpleado:
-                            updateVariable.name != "" ? updateVariable.name : empleado,
-                        departamento:
-                            updateVariable.department != ""
-                                ? updateVariable.department
-                                : departamento,
-                        puestoEmpleado:
-                            updateVariable.puesto != "" ? updateVariable.puesto : puesto,
-                        salarioMensual:
-                            updateVariable.salary != "" ? updateVariable.salary : salario,
-                    }, {
-                        headers: AuthenticationHeader()
-                    })
-                    .then(() => {
-                        getEmpleados();
-                        setOpenEdit(false)
-                        setOpenPanel(false)
-                    });
+                if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+                    // dev code
+                    await axios
+                        .put('https://localhost:7069' + "/api/Empleados/UpdateEmpleado/" + id, {
+                            cedulaEmpleado:
+                                updateVariable.cedula != "" ? updateVariable.cedula : cedula,
+                            nombreEmpleado:
+                                updateVariable.name != "" ? updateVariable.name : empleado,
+                            departamento:
+                                updateVariable.department != ""
+                                    ? updateVariable.department
+                                    : departamento,
+                            puestoEmpleado:
+                                updateVariable.puesto != "" ? updateVariable.puesto : puesto,
+                            salarioMensual:
+                                updateVariable.salary != "" ? updateVariable.salary : salario,
+                        }, {
+                            headers: AuthenticationHeader()
+                        })
+                        .then(() => {
+                            getEmpleados();
+                            setOpenEdit(false)
+                            setOpenPanel(false)
+                        });
+                } else {
+                    // production code
+                    await axios
+                        .put('https://servicionomina.azurewebsites.net/' + "api/Empleados/UpdateEmpleado/" + id, {
+                            cedulaEmpleado:
+                                updateVariable.cedula != "" ? updateVariable.cedula : cedula,
+                            nombreEmpleado:
+                                updateVariable.name != "" ? updateVariable.name : empleado,
+                            departamento:
+                                updateVariable.department != ""
+                                    ? updateVariable.department
+                                    : departamento,
+                            puestoEmpleado:
+                                updateVariable.puesto != "" ? updateVariable.puesto : puesto,
+                            salarioMensual:
+                                updateVariable.salary != "" ? updateVariable.salary : salario,
+                        }, {
+                            headers: AuthenticationHeader()
+                        })
+                        .then(() => {
+                            getEmpleados();
+                            setOpenEdit(false)
+                            setOpenPanel(false)
+                        });
+                }
             } catch (error) { }
         }
     };
 
     const deleteEmpleado = async () => {
         try {
-            await axios
-                .delete('https://localhost:7069' + "/api/Empleados/DeleteEmpleado/" + id, {
-                    headers: AuthenticationHeader()
-                })
-                .then(() => {
-                    getEmpleados();
-                    setOpenPanel(false)
-                });
+            if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+                // dev code
+                await axios
+                    .delete('https://localhost:7069' + "/api/Empleados/DeleteEmpleado/" + id, {
+                        headers: AuthenticationHeader()
+                    })
+                    .then(() => {
+                        getEmpleados();
+                        setOpenPanel(false)
+                    });
+            } else {
+                // production code
+                await axios
+                    .delete('https://servicionomina.azurewebsites.net/' + "api/Empleados/DeleteEmpleado/" + id, {
+                        headers: AuthenticationHeader()
+                    })
+                    .then(() => {
+                        getEmpleados();
+                        setOpenPanel(false)
+                    });
+            }
         } catch (error) {
             console.log("Error en enviar la solicitud.");
         }
