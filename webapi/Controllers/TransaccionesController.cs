@@ -1,9 +1,20 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Data;
+using System.Diagnostics.Contracts;
+using System.Dynamic;
 using System.Globalization;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Text;
 using webapi.Models;
 using webapi.Services;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace webapi.Controllers
 {
@@ -125,22 +136,31 @@ namespace webapi.Controllers
             }
 
             await _transaccionesService.RemoveAsync(id);
-
             return NoContent();
         }
 
-        //[HttpPost]
-        //[Route("postasiento")]
-        //[AllowAnonymous]
-        //public async Task<System.Net.Http.HttpContent> postasiento(AsientoDTO asientoDTO)
-        //{
-        //    HttpClient client = new HttpClient();
-        //    HttpResponseMessage response = await client.PostAsJsonAsync(
-        //        "https://contabilidadapi.azurewebsites.net/api_aux/SistCont/", asientoDTO);
-        //    response.EnsureSuccessStatusCode();
+        [HttpPost]
+        [Route("postasiento")]
+        public async Task<ContentResult> postasiento(AsientoDTO asientoDTO)
+        {
+            var myContent = JsonConvert.SerializeObject(asientoDTO);
+            //Console.WriteLine(myContent);
 
-        //    // return URI of the created resource.
-        //    return response.Content;
-        //}
+            //var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            //var byteContent = new ByteArrayContent(buffer);
+            var httpContent = new StringContent(myContent, Encoding.UTF8, "application/json");
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://contabilidadapi.azurewebsites.net");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.PostAsync("/api_aux/SistCont/", httpContent);
+                
+                var resultEND = new ContentResult { Content = response.Content.ReadAsStringAsync().Result, ContentType = "application/json" };
+                return resultEND;
+            }
+        }
     }
 }

@@ -99,12 +99,14 @@ export class Asientos extends Component {
             totalMonto += transac.montoTransaccion;
         })
 
-        await axios.post('https://contabilidadapi.azurewebsites.net/api_aux/SistCont/', {
+        await axios.post('api/Transacciones/postasiento', {
             "id_aux": 2,
             "nombre_aux": "Nomina",
             "cuenta": 1,
             "origen": "CR",
             "monto": totalMonto
+        }, {
+            headers: AuthenticationHeader()
         }).then((res) => {
             IdAsiento = res.data.id;
 
