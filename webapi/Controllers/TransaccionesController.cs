@@ -128,5 +128,19 @@ namespace webapi.Controllers
 
             return NoContent();
         }
+
+        //[HttpPost]
+        //[Route("postasiento")]
+        //[AllowAnonymous]
+        //public async Task<System.Net.Http.HttpContent> postasiento(AsientoDTO asientoDTO)
+        //{
+        //    HttpClient client = new HttpClient();
+        //    HttpResponseMessage response = await client.PostAsJsonAsync(
+        //        "https://contabilidadapi.azurewebsites.net/api_aux/SistCont/", asientoDTO);
+        //    response.EnsureSuccessStatusCode();
+
+        //    // return URI of the created resource.
+        //    return response.Content;
+        //}
     }
 }
