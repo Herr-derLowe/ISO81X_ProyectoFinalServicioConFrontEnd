@@ -2,7 +2,7 @@
 Proyecto final materias integracion UNAPEC ISO810 &amp; ISO815. Web API (MongoDB y Net Core) de Nominas con FrontEnd en React.
 
 Enlace del proyecto (valido hasta 2023-04-15 23:59:59):  
-https://servicionomina.azurewebsites.net/
+<a href="https://servicionomina.azurewebsites.net/" target="_blank">https://servicionomina.azurewebsites.net/</a>
 
 ## Creado Por:
 - Skyler de León Merán (A00106873)
