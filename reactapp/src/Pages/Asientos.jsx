@@ -93,7 +93,7 @@ export class Asientos extends Component {
 
         const MySwal = withReactContent(Swal)
         let totalMonto = 0;
-        const randIdAsiento = Math.floor(Math.random() * (1000 - 1) + 1);
+        const IdAsiento;
 
         this.state.transacciones.forEach((transac) => {
             totalMonto += transac.montoTransaccion;
@@ -106,54 +106,56 @@ export class Asientos extends Component {
             "origen": "CR",
             "monto": totalMonto
         }).then((res) => {
-            const data = res.data;
-            axios.put('api/Transacciones/UpdtTrasacNullIdBtwnFechas', {
-                dateLower: new Date(this.state.TransaccionDesdeFilter).toISOString(),
-                dateUpper: new Date(this.state.TransaccionHastaFilter).toISOString(),
-                idAsiento: data.id
-            }, {
-                headers: AuthenticationHeader()
-            })
-                .then(() => {
-                    MySwal.fire({
-                        title: <strong>Transacciones Contabilizadas en asiento #{data.id}!</strong>,
-                        icon: 'success',
-                        timer: 3000
-                    });
-                    this.setState({
-                        TransaccionDesdeFilter: "",
-                        TransaccionHastaFilter: "",
-                        isFiltered: false
-                    });
-                    this.refreshList();
-                }, (error) => {
-                    console.log(error);
-                    if (error.response) {
-                        // The request was made and the server responded with a status code
-                        // that falls out of the range of 2xx
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                    } else if (error.request) {
-                        // The request was made but no response was received
-                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                        // http.ClientRequest in node.js
-                        console.log(error.request);
-                    } else {
-                        // Something happened in setting up the request that triggered an Error
-                        console.log('Error: ', error.message);
-                    }
-                    console.log(error.config);
+            IdAsiento = res.data.id;
 
-                    MySwal.fire({
-                        title: <strong>Error: No se pudieron contabilizar las transacciones...</strong>,
-                        icon: 'error',
-                        timer: 4000
-                    });
-                    return
-                });
+        });
+
+        await axios.put('api/Transacciones/UpdtTrasacNullIdBtwnFechas', {
+            dateLower: new Date(this.state.TransaccionDesdeFilter).toISOString(),
+            dateUpper: new Date(this.state.TransaccionHastaFilter).toISOString(),
+            idAsiento: IdAsiento
+        }, {
+            headers: AuthenticationHeader()
         })
-        
+            .then(() => {
+                MySwal.fire({
+                    title: <strong>Transacciones Contabilizadas en asiento #{IdAsiento}!</strong>,
+                    icon: 'success',
+                    timer: 3000
+                });
+                this.setState({
+                    TransaccionDesdeFilter: "",
+                    TransaccionHastaFilter: "",
+                    isFiltered: false
+                });
+                this.refreshList();
+            }, (error) => {
+                console.log(error);
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error: ', error.message);
+                }
+                console.log(error.config);
+
+                MySwal.fire({
+                    title: <strong>Error: No se pudieron contabilizar las transacciones...</strong>,
+                    icon: 'error',
+                    timer: 4000
+                });
+                return
+            });
+
         //Prueba pre-integracion
         //console.log({
         //    "id_aux": 2,
@@ -181,7 +183,7 @@ export class Asientos extends Component {
 
         //Integracion Registro Sin Contabilidad (DATOS FORMA 2)
         console.log({
-            "Id_Asiento": randIdAsiento,
+            "Id_Asiento": IdAsiento,
             "Descripcion": `Asiento de Nominas correspondiente al periodo [${new Date(this.state.TransaccionDesdeFilter).toISOString().split('T')[0]}, ${new Date(this.state.TransaccionHastaFilter).toISOString().split('T')[0]}]`,
             "Id_Auxiliar": 2,
             "CuentaDB": 71,
