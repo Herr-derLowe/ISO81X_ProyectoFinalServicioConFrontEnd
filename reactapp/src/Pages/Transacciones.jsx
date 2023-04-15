@@ -33,7 +33,7 @@ export class Transacciones extends React.Component {
             montoTransaccion: "",
             estadoTransaccion: "",
             empleado: "",
-
+            idAsiento: null
         }
     }
     refreshList() {
@@ -57,6 +57,9 @@ export class Transacciones extends React.Component {
         })
             .then(res => {
                 const data = res.data;
+                if (!this.state.id) {
+                    this.setState({ empleado: data[0].id });
+                }
                 this.setState({ empleados: data/*, empleado: data[0].id*/ });
             })
     }
@@ -78,7 +81,9 @@ export class Transacciones extends React.Component {
         })
             .then(res => {
                 const data = res.data;
-
+                if (!this.state.id) {
+                    this.setState({ deduccion: data[0].id });
+                }
                 this.setState({ ingresos: data/*, deduccion: data[0].id*/ });
             })
     }
@@ -171,7 +176,8 @@ export class Transacciones extends React.Component {
             deduccion: t.ingresoDeduccion_id,
             fechaTransaccion: new Date(t.fechaTransaccion),
             montoTransaccion: t.montoTransaccion,
-            estadoTransaccion: t.estadoTransaccion
+            estadoTransaccion: t.estadoTransaccion,
+            idAsiento: t.idAsiento
         });
     }
     changeDeduccion = (e) => {
@@ -246,7 +252,8 @@ export class Transacciones extends React.Component {
             ingresoDeduccion_id: this.state.deduccion,
             fechaTransaccion: this.state.fechaTransaccion,
             montoTransaccion: this.state.montoTransaccion,
-            estadoTransaccion: this.state.estadoTransaccion
+            estadoTransaccion: this.state.estadoTransaccion,
+            idAsiento: this.state.idAsiento
         }, {
             headers: AuthenticationHeader()
         })

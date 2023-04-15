@@ -93,7 +93,7 @@ export class Asientos extends Component {
 
         const MySwal = withReactContent(Swal)
         let totalMonto = 0;
-        const IdAsiento;
+        let IdAsiento = 0;
 
         this.state.transacciones.forEach((transac) => {
             totalMonto += transac.montoTransaccion;
