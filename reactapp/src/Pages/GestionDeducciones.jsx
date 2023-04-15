@@ -119,6 +119,7 @@ export class GestionDeducciones extends Component {
     addClick() {
         this.setState({
             modalTitle: "Agregar Tipo Deduccion",
+            id: "",
             claveDeduccion: "",
             nombreDeduccion: "",
             dependeSalarioD: true,

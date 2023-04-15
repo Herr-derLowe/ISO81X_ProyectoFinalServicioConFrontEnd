@@ -152,6 +152,7 @@ export class Transacciones extends React.Component {
         this.getIngresos();
         this.setState({
             modalTitle: "Agregar Transaccion",
+            id: "",
             tipoTransaccion: "INGRESO",
             fechaTransaccion: new Date(),
             montoTransaccion: 0,

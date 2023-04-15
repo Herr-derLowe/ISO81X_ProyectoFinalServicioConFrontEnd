@@ -9,30 +9,38 @@ export function Context(props) {
   
     //Variables.
     const [dataEmpleados, setDataEmpleados] = useState([]);
-    const apiUrl = process.env.API_URL;
+
     //Funciones.
     const getEmpleados = async () => {
         try {
             //console.log(process.env.NODE_ENV)
-            if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-                // dev code
-                await axios
-                    .get('https://localhost:7069' + "/api/Empleados/GetEmpleados", {
+            await axios
+                    .get(window.location.origin + "/api/Empleados/GetEmpleados", {
                         headers: AuthenticationHeader()
                     })
                     .then((data) => {
                         setDataEmpleados(data.data);
                     });
-            } else {
-                // production code
-                await axios
-                    .get('https://servicionomina.azurewebsites.net/' + "api/Empleados/GetEmpleados", {
-                        headers: AuthenticationHeader()
-                    })
-                    .then((data) => {
-                        setDataEmpleados(data.data);
-                    });
-            }
+
+            //if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+            //    // dev code
+            //    await axios
+            //        .get('https://localhost:7069' + "/api/Empleados/GetEmpleados", {
+            //            headers: AuthenticationHeader()
+            //        })
+            //        .then((data) => {
+            //            setDataEmpleados(data.data);
+            //        });
+            //} else {
+            //    // production code
+            //    await axios
+            //        .get('https://servicionomina.azurewebsites.net/' + "api/Empleados/GetEmpleados", {
+            //            headers: AuthenticationHeader()
+            //        })
+            //        .then((data) => {
+            //            setDataEmpleados(data.data);
+            //        });
+            //}
           
         } catch (error) {}
       };

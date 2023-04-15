@@ -30,6 +30,7 @@ namespace webapi.Services
             await _transaccionesCollection.Find(x => x.idAsiento == null).ToListAsync();
         public async Task<List<Transacciones>> GetTransacBetweenFechas(DateTime dateLower, DateTime dateUpper)
         {
+            //Console.WriteLine(dateUpper.ToString("s"));
             var filterBuilder = Builders<Transacciones>.Filter;
             var filter = filterBuilder.Gte(x => x.fechaTransaccion, dateLower) &
                 filterBuilder.Lte(x => x.fechaTransaccion, dateUpper);
@@ -54,6 +55,7 @@ namespace webapi.Services
 
         public async Task UpdtTrasacNullIdBtwnFechas(DateTime dateLower, DateTime dateUpper, int idAsiento)
         {
+            //Console.WriteLine(dateUpper.ToString("s"));
             UpdateDefinition<Transacciones> updatedTransaccion = Builders<Transacciones>.Update.Set(x => x.idAsiento, idAsiento);
 
             var filterBuilder = Builders<Transacciones>.Filter;

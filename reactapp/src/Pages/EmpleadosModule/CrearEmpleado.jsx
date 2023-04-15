@@ -69,10 +69,8 @@ export function CrearEmpleado() {
 
       if (cedulaOK) {
           try {
-              if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-                  // dev code
-                  await axios
-                      .post('https://localhost:7069' + "/api/Empleados/PostAddEmpleado/", {
+              await axios
+                      .post(window.location.origin + "/api/Empleados/PostAddEmpleado/", {
                           cedulaEmpleado: updateVariable.cedula,
                           nombreEmpleado: updateVariable.name,
                           departamento: updateVariable.department,
@@ -84,22 +82,38 @@ export function CrearEmpleado() {
                       .then(() => {
                           navigate("/empleados/ver");
                       });
-              } else {
-                  // production code
-                  await axios
-                      .post('https://servicionomina.azurewebsites.net/' + "api/Empleados/PostAddEmpleado/", {
-                          cedulaEmpleado: updateVariable.cedula,
-                          nombreEmpleado: updateVariable.name,
-                          departamento: updateVariable.department,
-                          puestoEmpleado: updateVariable.puesto,
-                          salarioMensual: updateVariable.salary,
-                      }, {
-                          headers: AuthenticationHeader()
-                      })
-                      .then(() => {
-                          navigate("/empleados/ver");
-                      });
-              }
+
+              //if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+              //    // dev code
+              //    await axios
+              //        .post('https://localhost:7069' + "/api/Empleados/PostAddEmpleado/", {
+              //            cedulaEmpleado: updateVariable.cedula,
+              //            nombreEmpleado: updateVariable.name,
+              //            departamento: updateVariable.department,
+              //            puestoEmpleado: updateVariable.puesto,
+              //            salarioMensual: updateVariable.salary,
+              //        }, {
+              //            headers: AuthenticationHeader()
+              //        })
+              //        .then(() => {
+              //            navigate("/empleados/ver");
+              //        });
+              //} else {
+              //    // production code
+              //    await axios
+              //        .post('https://servicionomina.azurewebsites.net/' + "api/Empleados/PostAddEmpleado/", {
+              //            cedulaEmpleado: updateVariable.cedula,
+              //            nombreEmpleado: updateVariable.name,
+              //            departamento: updateVariable.department,
+              //            puestoEmpleado: updateVariable.puesto,
+              //            salarioMensual: updateVariable.salary,
+              //        }, {
+              //            headers: AuthenticationHeader()
+              //        })
+              //        .then(() => {
+              //            navigate("/empleados/ver");
+              //        });
+              //}
 
               
           } catch (error) { }

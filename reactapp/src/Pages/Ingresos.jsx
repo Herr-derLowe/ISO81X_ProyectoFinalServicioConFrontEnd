@@ -54,6 +54,7 @@ export class Ingresos extends Component {
     addClick() {
         this.setState({
             modalTitle: "Agregar Tipo de ingreso",
+            id: "",
             claveIngreso: "",
             nombreIngreso: "",
             dependeSalarioI: true,

@@ -18,7 +18,7 @@ namespace webapi.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string ingresoDeduccion_id { get; set; }
         [BsonRequired]
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local, Representation = BsonType.String)]
+        [BsonDateTimeOptions(Kind = DateTimeKind.Utc, Representation = BsonType.String)]
         public DateTime fechaTransaccion { get; set; }
         [BsonRequired]
         [BsonRepresentation(BsonType.Double)]

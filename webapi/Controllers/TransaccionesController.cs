@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Globalization;
 using webapi.Models;
 using webapi.Services;
 
@@ -28,8 +29,11 @@ namespace webapi.Controllers
 
         [HttpGet]
         [Route("GetTransacBetweenFechas")]
-        public async Task<List<Transacciones>> GetTransacBetweenFechas(string datelow, string datehigh) =>
-            await _transaccionesService.GetTransacBetweenFechas(DateTime.Parse(datelow), DateTime.Parse(datehigh));
+        public async Task<List<Transacciones>> GetTransacBetweenFechas(string datelow, string datehigh)
+        {
+            return await _transaccionesService.GetTransacBetweenFechas(DateTime.Parse(datelow), 
+                DateTime.Parse(datehigh));
+        }
         [HttpGet]
         [Route("GetTransacNullAsntBetweenFechas")]
         public async Task<List<Transacciones>> GetTransacNullAsntBetweenFechas(string datelow, string datehigh) =>
@@ -86,15 +90,25 @@ namespace webapi.Controllers
         }
         [HttpPut]
         [Route("UpdtTrasacNullIdBtwnFechas")]
-        public async Task<IActionResult> UpdtTrasacNullIdBtwnFechas(string dateLower, string dateUpper, int idAsiento)
+        public async Task<IActionResult> UpdtTrasacNullIdBtwnFechas(TransaccionPutFilterDTO transacDTO)
         {
-            if (string.IsNullOrWhiteSpace(dateLower) || string.IsNullOrWhiteSpace(dateUpper)
-                || !DateTime.TryParse(dateLower, out DateTime result) || !DateTime.TryParse(dateUpper, out DateTime result1))
+            CultureInfo culture = CultureInfo.InvariantCulture;
+            DateTimeStyles dateTimeStyles = DateTimeStyles.AdjustToUniversal;
+            //Console.WriteLine(transacDTO.dateLower);
+            if (string.IsNullOrWhiteSpace(transacDTO.dateLower) || string.IsNullOrWhiteSpace(transacDTO.dateUpper)
+                || !DateTime.TryParse(transacDTO.dateLower, out DateTime result) 
+                || !DateTime.TryParse(transacDTO.dateUpper, out DateTime result1))
             {
                 return BadRequest("Una o ambas fechas no son validas");
             }
+            else if (transacDTO.idAsiento < 1)
+            {
+                return BadRequest("El id del asiento no puede ser menor que 1");
+            }
             
-            await _transaccionesService.UpdtTrasacNullIdBtwnFechas(DateTime.Parse(dateLower), DateTime.Parse(dateUpper), idAsiento);
+            await _transaccionesService.UpdtTrasacNullIdBtwnFechas(DateTime.Parse(transacDTO.dateLower, culture, dateTimeStyles), 
+                DateTime.Parse(transacDTO.dateUpper, culture, dateTimeStyles), 
+                transacDTO.idAsiento);
 
             return NoContent();
         }

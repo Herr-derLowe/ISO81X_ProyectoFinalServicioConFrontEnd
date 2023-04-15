@@ -46,44 +46,87 @@ export function Login() {
 
     return (
         <div className={style.body}>
-            <section>
-                <h1>Sistema de nomina</h1>
+            <div className={style.custom }>
+                <div className="card">
+                    <div className="card-body">
+                        <form onSubmit={submitData}>
+                            <div className="px-4 pt-2">
+                                <h2 className="card-title">Sistema de Nomina</h2>
+                                <label htmlFor="userName" className="form-label">Nombre de usuario <span className={style.spanNeeded }><strong>*</strong></span></label>
+                                <input
+                                    className="form-control"
+                                    id="userName"
+                                    type="text"
+                                    name="username"
+                                    required
+                                    onChange={getData}
+                                    placeholder="Usuario"
+                                />
+                                <br/>
+                                <label htmlFor="password" className="form-label">Contrase&ntilde;a <span className={style.spanNeeded}><strong>*</strong></span></label>
+                                <input
+                                    className="form-control"
+                                    id="password"
+                                    type="password"
+                                    name="password"
+                                    required
+                                    onChange={getData}
+                                    placeholder="Contrase&ntilde;a"
+                                />
 
-                <form onSubmit={submitData}>
-                    <div className={style.input}>
-                        <span>
-                            Usuario <strong>*</strong>
-                        </span>
+                                {isCorrect ? (<></>) : (
+                                    <span className={style.spanWrong}>
+                                        <strong>Contrase&ntilde;a o Usuario incorrecto</strong>
+                                        <br />
+                                    </span>
+                                )}
+                                <br />
+                                <button className="btn btn-dark fw-bold">Login</button>
 
-                        <input type="text" name="username" required onChange={getData} />
+                            </div>
+                        </form>
                     </div>
+                </div>
+            </div>
 
-                    <div className={style.input}>
-                        <span>
-                            Contrase&ntilde;a <strong>*</strong>
-                        </span>
+            {/*<section>*/}
+            {/*    <h1>Sistema de nomina</h1>*/}
 
-                        <input
-                            type="password"
-                            name="password"
-                            required
-                            onChange={getData}
-                        />
-                    </div>
-                    {isCorrect ? (<></>) : (
-                        <span className={style.spanWrong}>
-                            <strong>Contrase&ntilde;a o Usuario incorrecto</strong>
-                        </span>
-                    )}
-                    <div className={style.send}>
-                        <button>Login</button>
-                    </div>
-                </form>
+            {/*    <form onSubmit={submitData}>*/}
+            {/*        <div className={style.input}>*/}
+            {/*            <span>*/}
+            {/*                Usuario <strong>*</strong>*/}
+            {/*            </span>*/}
 
-                <footer className={style.footer}>
-                    <h3>Copyright @Dann, Inc. 2023</h3>
-                </footer>
-            </section>
+            {/*            <input type="text" name="username" required onChange={getData} />*/}
+            {/*        </div>*/}
+
+            {/*        <div className={style.input}>*/}
+            {/*            <span>*/}
+            {/*                Contrase&ntilde;a <strong>*</strong>*/}
+            {/*            </span>*/}
+
+            {/*            <input*/}
+            {/*                type="password"*/}
+            {/*                name="password"*/}
+            {/*                required*/}
+            {/*                onChange={getData}*/}
+            {/*            />*/}
+            {/*        </div>*/}
+            {/*{isCorrect ? (<></>) : (*/}
+            {/*    <span className={style.spanWrong}>*/}
+            {/*        <strong>Contrase&ntilde;a o Usuario incorrecto</strong>*/}
+            {/*    </span>*/}
+            {/*)}*/}
+            {/*        <div className={style.send}>*/}
+            {/*            <button>Login</button>*/}
+            {/*        </div>*/}
+            {/*    </form>*/}
+
+            {/*    <footer className={style.footer}>*/}
+            {/*        <h3>Copyright @Dann, Inc. 2023</h3>*/}
+            {/*    </footer>*/}
+            {/*</section>*/}
         </div>
     );
 }

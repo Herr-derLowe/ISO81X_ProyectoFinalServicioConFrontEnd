@@ -13,6 +13,9 @@
 
     background-color: #CCC;
 }
+.custom {
+    flex-basis:70%;
+}
 
 .body section{
     height: 100vh;
@@ -50,9 +53,23 @@
 .input strong{
     color:red;
 }
-
-.spanWrong strong{
+.spanNeeded strong{
     color:red;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.spanWrong strong {
+    color: red;
+    animation: fadeIn 1s;
 }
 
 .input input{
