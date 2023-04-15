@@ -102,7 +102,7 @@ export class Asientos extends Component {
         await axios.post('https://contabilidadapi.azurewebsites.net/api_aux/SistCont/', {
             "id_aux": 2,
             "nombre_aux": "Nomina",
-            "cuenta": `1`,
+            "cuenta": 1,
             "origen": "CR",
             "monto": totalMonto
         }).then((res) => {
